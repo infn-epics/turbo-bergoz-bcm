@@ -1,0 +1,8 @@
+epicsEnvSet("IOC","bcm-rf-ioc")
+epicsEnvSet("TOP","/app/IOC-DEVEL/turbo-bergoz-bcm")
+epicsEnvSet("SUPPORT","/epics/support")
+epicsEnvSet("ASYN","/epics/support/asyn")
+epicsEnvSet("STREAMDEVICE","/epics/support/StreamDevice")
+epicsEnvSet("CALC","/epics/support/calc")
+epicsEnvSet("AUTOSAVE","/epics/support/autosave")
+epicsEnvSet("EPICS_BASE","/epics/epics-base/")

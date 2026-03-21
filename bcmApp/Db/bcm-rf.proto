@@ -1,0 +1,194 @@
+# =====================================================================
+# StreamDevice Protocol File for Bergoz BCM-RF-E
+# Turbo-ICT & BCM-RF-E Beam Charge Monitor
+#
+# Based on BCM-RF Manual Rev. 2.4 (Nov. 2017)
+# Firmware >= 2.5, Hardware rev. 204.4
+#
+# Communication: USB CDC serial (virtual COM port) or
+#                transparent ethernet-to-serial converter (TCP)
+#
+# Protocol: All data transmitted as character strings.
+#
+# Command frame format (host -> device):
+#   [FrameType][FrameNum]:[4-char HEX value]\n\0
+#   [FrameType][FrameNum]?\n\0            (query)
+#
+# Response frame format (device -> host):
+#   [FrameType][FrameNum]:[counter 4-char]=[8-char HEX value]\n\0
+#
+# Auto-sent frames:
+#   A0:nnnn=vvvvvvvv  - ADC voltage (uV), or fC/nA if reverse on
+#   !0:nnnn=00000001  - New trigger notification (S&H mode only)
+#
+# IMPORTANT: The device auto-sends ADC data continuously.
+# Unsolicited !0: and A1: frames can arrive between a query and its
+# response. The @mismatch handler retries once to skip one stray frame.
+# =====================================================================
+
+ReplyTimeout = 3000;
+ReadTimeout  = 2000;
+WriteTimeout = 1000;
+ExtraInput   = Ignore;
+
+# Terminator: The device uses \n\0 (2 bytes) as frame terminator.
+InTerminator  = "\n\x00";
+OutTerminator = "\n\x00";
+
+
+# =====================================================================
+# MEASUREMENT DATA (auto-sent by device)
+# =====================================================================
+
+readMeasurement {
+    in "A%*c:%*4c=%08x";
+}
+
+readTrigger {
+    in "!%*c:%*4c=%08x";
+}
+
+
+# =====================================================================
+# HOLD DELAY (D command) - 0 to 255 ns
+# =====================================================================
+
+setHoldDelay {
+    out "D0:%04X";
+}
+
+getHoldDelay {
+    out "D0?";
+    in "D0:%*4c=%08x";
+    @mismatch { in "D0:%*4c=%08x"; }
+}
+
+
+# =====================================================================
+# SWITCH CONFIGURATION (I command)
+# =====================================================================
+
+setSwitchConfig {
+    out "I0:%04X";
+}
+
+getSwitchConfig {
+    out "I0?";
+    in "I0:%*4c=%08x";
+    @mismatch { in "I0:%*4c=%08x"; }
+}
+
+
+# =====================================================================
+# CAL-FO MODE (K command)
+# =====================================================================
+
+setCalFO {
+    out "K0:%04X";
+}
+
+getCalFO {
+    out "K0?";
+    in "K0:%*4c=%08x";
+    @mismatch { in "K0:%*4c=%08x"; }
+}
+
+
+# =====================================================================
+# REVERSE FUNCTION (M command)
+# =====================================================================
+
+setReverseFunc {
+    out "M0:%04X";
+}
+
+getReverseFunc {
+    out "M0?";
+    in "M0:%*4c=%08x";
+    @mismatch { in "M0:%*4c=%08x"; }
+}
+
+
+# =====================================================================
+# ADC SAMPLES PER TRIGGER (T command)
+# =====================================================================
+
+setADCSamples {
+    out "T0:%04X";
+}
+
+getADCSamples {
+    out "T0?";
+    in "T0:%*4c=%08x";
+    @mismatch { in "T0:%*4c=%08x"; }
+}
+
+
+# =====================================================================
+# SERIAL NUMBER (S command) - read-only
+# =====================================================================
+
+getSerialNumber {
+    out "S0?";
+    in "S0:%*4c=%08x";
+    @mismatch { in "S0:%*4c=%08x"; }
+}
+
+
+# =====================================================================
+# SAVE CONFIGURATION TO EEPROM (E command)
+# =====================================================================
+
+saveConfig {
+    out "E0:0001";
+}
+
+
+# =====================================================================
+# CALIBRATION CONSTANT Qcal/Ical (V command)
+# IEEE754 32-bit float, split into upper and lower 16-bit words.
+# =====================================================================
+
+setCalQI_Hi {
+    out "V1:%04X";
+}
+
+setCalQI_Lo {
+    out "V0:%04X";
+}
+
+getCalQI_Lo {
+    out "V0?";
+    in "V1:%*4c=%08x";
+    @mismatch { in "V1:%*4c=%08x"; }
+}
+
+getCalQI_Hi {
+    in "V0:%*4c=%08x";
+    @mismatch { in "V0:%*4c=%08x"; }
+}
+
+
+# =====================================================================
+# CALIBRATION CONSTANT Ucal (W command)
+# IEEE754 32-bit float, split into upper and lower 16-bit words.
+# =====================================================================
+
+setCalU_Hi {
+    out "W1:%04X";
+}
+
+setCalU_Lo {
+    out "W0:%04X";
+}
+
+getCalU_Lo {
+    out "W0?";
+    in "W1:%*4c=%08x";
+    @mismatch { in "W1:%*4c=%08x"; }
+}
+
+getCalU_Hi {
+    in "W0:%*4c=%08x";
+    @mismatch { in "W0:%*4c=%08x"; }
+}

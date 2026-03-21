@@ -1,0 +1,634 @@
+# =====================================================================
+# EPICS Database for Bergoz BCM-RF-E
+# Turbo-ICT & BCM-RF-E Beam Charge Monitor
+#
+# Based on BCM-RF Manual Rev. 2.4 (Nov. 2017)
+#
+# Macros:
+#   P     - PV prefix (e.g., "FACILITY:BCM:01")
+#   PORT  - Asyn port name (e.g., "BCM1")
+#   SCAN  - Measurement scan period (default: "1 second")
+# =====================================================================
+
+
+# =====================================================================
+# MEASUREMENT READBACK
+# =====================================================================
+
+# Raw ADC measurement value (auto-sent by device)
+# Value in microvolts when reverse function is OFF.
+# Value in femtocoulombs (S&H) or nanoamperes (T-C) when reverse is ON.
+record(longin, "$(P):MEAS_RAW_RB") {
+    field(DESC, "Raw measurement value")
+    field(DTYP, "stream")
+    field(INP,  "@bcm-rf.proto readMeasurement $(PORT)")
+    field(SCAN, "I/O Intr")
+    field(FLNK, "$(P):VOLTAGE_RB")
+}
+
+# Output voltage in Volts (converted from raw microvolts)
+record(calc, "$(P):VOLTAGE_RB") {
+    field(DESC, "Output voltage")
+    field(INPA, "$(P):MEAS_RAW_RB")
+    field(CALC, "A/1e6")
+    field(EGU,  "V")
+    field(PREC, "6")
+    field(HOPR, "5")
+    field(LOPR, "-1")
+    field(HIHI, "5.1")
+    field(LOLO, "-1.1")
+    field(HHSV, "MAJOR")
+    field(LLSV, "MAJOR")
+    field(FLNK, "$(P):CHARGE_RB")
+}
+
+# Calculated bunch charge (S&H mode)
+# Qin = Qcal * 10^(Vout / Ucal) [pC]
+# Uses calibration constants entered by operator.
+record(calc, "$(P):CHARGE_RB") {
+    field(DESC, "Bunch charge (S&H mode)")
+    field(INPA, "$(P):VOLTAGE_RB")
+    field(INPB, "$(P):UCAL_SP")
+    field(INPC, "$(P):QCAL_SP")
+    field(CALC, "(B=0||C=0)?0:C*10^(A/B)")
+    field(EGU,  "pC")
+    field(PREC, "4")
+    field(HOPR, "300")
+    field(LOPR, "0")
+    field(FLNK, "$(P):CURRENT_RB")
+}
+
+# Calculated average current (T-C mode)
+# Iin = Ical * 10^(Vout / Ucal) [uA]
+# Uses calibration constants entered by operator.
+record(calc, "$(P):CURRENT_RB") {
+    field(DESC, "Average current (T-C mode)")
+    field(INPA, "$(P):VOLTAGE_RB")
+    field(INPB, "$(P):UCAL_SP")
+    field(INPC, "$(P):ICAL_SP")
+    field(CALC, "(B=0||C=0)?0:C*10^(A/B)")
+    field(EGU,  "uA")
+    field(PREC, "4")
+    field(HOPR, "3000")
+    field(LOPR, "0")
+}
+
+# Trigger notification (S&H mode only)
+record(longin, "$(P):TRIGGER_RB") {
+    field(DESC, "Trigger notification")
+    field(DTYP, "stream")
+    field(INP,  "@bcm-rf.proto readTrigger $(PORT)")
+    field(SCAN, "I/O Intr")
+}
+
+
+# =====================================================================
+# CALIBRATION CONSTANTS (operator-entered, for local calculation)
+# These are the factory-measured values from the Calibration Report.
+# =====================================================================
+
+record(ao, "$(P):UCAL_SP") {
+    field(DESC, "Calibration constant Ucal")
+    field(EGU,  "V")
+    field(PREC, "6")
+    field(VAL,  "1.0")
+    field(PINI, "YES")
+    info(autosaveFields, "VAL")
+}
+
+record(ao, "$(P):QCAL_SP") {
+    field(DESC, "Calibration constant Qcal")
+    field(EGU,  "pC")
+    field(PREC, "6")
+    field(VAL,  "1.0")
+    field(PINI, "YES")
+    info(autosaveFields, "VAL")
+}
+
+record(ao, "$(P):ICAL_SP") {
+    field(DESC, "Calibration constant Ical")
+    field(EGU,  "uA")
+    field(PREC, "6")
+    field(VAL,  "1.0")
+    field(PINI, "YES")
+    info(autosaveFields, "VAL")
+}
+
+
+# =====================================================================
+# MEASUREMENT MODE
+# =====================================================================
+
+# Measurement mode select: T-C (0) or S&H (1)
+record(bo, "$(P):MEAS_MODE_SP") {
+    field(DESC, "Measurement mode")
+    field(ZNAM, "Track-Continuous")
+    field(ONAM, "Sample-and-Hold")
+    field(VAL,  "1")
+    field(PINI, "YES")
+    field(FLNK, "$(P):SWITCH_CALC")
+    info(autosaveFields, "VAL")
+}
+
+record(bi, "$(P):MEAS_MODE_RB") {
+    field(DESC, "Measurement mode readback")
+    field(ZNAM, "Track-Continuous")
+    field(ONAM, "Sample-and-Hold")
+}
+
+# Trigger mode select: External (0) or On-board (1)
+record(bo, "$(P):TRIG_MODE_SP") {
+    field(DESC, "Trigger mode")
+    field(ZNAM, "External")
+    field(ONAM, "On-board")
+    field(VAL,  "1")
+    field(PINI, "YES")
+    field(FLNK, "$(P):SWITCH_CALC")
+    info(autosaveFields, "VAL")
+}
+
+record(bi, "$(P):TRIG_MODE_RB") {
+    field(DESC, "Trigger mode readback")
+    field(ZNAM, "External")
+    field(ONAM, "On-board")
+}
+
+# Internal clock enable: Off (0) or On (1)
+# Should be ON for S&H, OFF for T-C
+record(bo, "$(P):INT_CLK_SP") {
+    field(DESC, "Internal clock enable")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    field(VAL,  "1")
+    field(PINI, "YES")
+    field(FLNK, "$(P):SWITCH_CALC")
+    info(autosaveFields, "VAL")
+}
+
+record(bi, "$(P):INT_CLK_RB") {
+    field(DESC, "Internal clock readback")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+}
+
+# Hold delay control: Digital (0) or Front panel trimmer (1)
+record(bo, "$(P):DELAY_CTRL_SP") {
+    field(DESC, "Hold delay control source")
+    field(ZNAM, "Digital")
+    field(ONAM, "Trimmer")
+    field(VAL,  "0")
+    field(PINI, "YES")
+    field(FLNK, "$(P):SWITCH_CALC")
+    info(autosaveFields, "VAL")
+}
+
+record(bi, "$(P):DELAY_CTRL_RB") {
+    field(DESC, "Hold delay control readback")
+    field(ZNAM, "Digital")
+    field(ONAM, "Trimmer")
+}
+
+
+# =====================================================================
+# SWITCH CONFIGURATION REGISTER
+# Combines individual mode bits into register value for I command.
+# Bit 0 = trigger, Bit 1 = mode, Bit 2 = clock, Bit 3 = delay ctrl
+# =====================================================================
+
+# Calculate register value from individual bits and write to device
+record(calcout, "$(P):SWITCH_CALC") {
+    field(DESC, "Calculate switch config register")
+    field(INPA, "$(P):TRIG_MODE_SP")
+    field(INPB, "$(P):MEAS_MODE_SP")
+    field(INPC, "$(P):INT_CLK_SP")
+    field(INPD, "$(P):DELAY_CTRL_SP")
+    field(CALC, "A+(B*2)+(C*4)+(D*8)")
+    field(OUT,  "$(P):SWITCH_CFG_SP PP")
+    field(OOPT, "Every Time")
+    field(DOPT, "Use CALC")
+}
+
+# Write switch config register to device
+record(longout, "$(P):SWITCH_CFG_SP") {
+    field(DESC, "Switch configuration register")
+    field(DTYP, "stream")
+    field(OUT,  "@bcm-rf.proto setSwitchConfig $(PORT)")
+    field(FLNK, "$(P):SWITCH_CFG_RB")
+}
+
+# Read switch config register from device
+record(longin, "$(P):SWITCH_CFG_RB") {
+    field(DESC, "Switch config register readback")
+    field(DTYP, "stream")
+    field(INP,  "@bcm-rf.proto getSwitchConfig $(PORT)")
+    field(PINI, "YES")
+    field(FLNK, "$(P):SWITCH_PARSE_TRIG")
+}
+
+# Parse individual bits from readback register
+record(calc, "$(P):SWITCH_PARSE_TRIG") {
+    field(DESC, "Parse trigger mode bit")
+    field(INPA, "$(P):SWITCH_CFG_RB")
+    field(CALC, "A&1")
+    field(FLNK, "$(P):TRIG_MODE_SET_RB")
+}
+
+record(longout, "$(P):TRIG_MODE_SET_RB") {
+    field(DESC, "Set trigger mode readback")
+    field(DOL,  "$(P):SWITCH_PARSE_TRIG")
+    field(OMSL, "closed_loop")
+    field(OUT,  "$(P):TRIG_MODE_RB PP")
+    field(FLNK, "$(P):SWITCH_PARSE_MODE")
+}
+
+record(calc, "$(P):SWITCH_PARSE_MODE") {
+    field(DESC, "Parse measurement mode bit")
+    field(INPA, "$(P):SWITCH_CFG_RB")
+    field(CALC, "(A>>1)&1")
+    field(FLNK, "$(P):MEAS_MODE_SET_RB")
+}
+
+record(longout, "$(P):MEAS_MODE_SET_RB") {
+    field(DESC, "Set measurement mode readback")
+    field(DOL,  "$(P):SWITCH_PARSE_MODE")
+    field(OMSL, "closed_loop")
+    field(OUT,  "$(P):MEAS_MODE_RB PP")
+    field(FLNK, "$(P):SWITCH_PARSE_CLK")
+}
+
+record(calc, "$(P):SWITCH_PARSE_CLK") {
+    field(DESC, "Parse internal clock bit")
+    field(INPA, "$(P):SWITCH_CFG_RB")
+    field(CALC, "(A>>2)&1")
+    field(FLNK, "$(P):INT_CLK_SET_RB")
+}
+
+record(longout, "$(P):INT_CLK_SET_RB") {
+    field(DESC, "Set internal clock readback")
+    field(DOL,  "$(P):SWITCH_PARSE_CLK")
+    field(OMSL, "closed_loop")
+    field(OUT,  "$(P):INT_CLK_RB PP")
+    field(FLNK, "$(P):SWITCH_PARSE_DLY")
+}
+
+record(calc, "$(P):SWITCH_PARSE_DLY") {
+    field(DESC, "Parse delay control bit")
+    field(INPA, "$(P):SWITCH_CFG_RB")
+    field(CALC, "(A>>3)&1")
+    field(FLNK, "$(P):DELAY_CTRL_SET_RB")
+}
+
+record(longout, "$(P):DELAY_CTRL_SET_RB") {
+    field(DESC, "Set delay control readback")
+    field(DOL,  "$(P):SWITCH_PARSE_DLY")
+    field(OMSL, "closed_loop")
+    field(OUT,  "$(P):DELAY_CTRL_RB PP")
+}
+
+
+# =====================================================================
+# CONVENIENCE MODES
+# Set S&H mode: Bit1=1 (S&H), Bit2=1 (clock on), Bit0 per trigger choice
+# Set T-C mode: Bit1=0 (T-C), Bit2=0 (clock off)
+# =====================================================================
+
+record(bo, "$(P):MODE_SH_CMD") {
+    field(DESC, "Switch to Sample-and-Hold mode")
+    field(ZNAM, "Idle")
+    field(ONAM, "Set S&H")
+    field(HIGH, "0.1")
+    field(FLNK, "$(P):MODE_SH_SEQ")
+}
+
+record(seq, "$(P):MODE_SH_SEQ") {
+    field(DESC, "Set S&H mode sequence")
+    field(DOL1, "1")
+    field(LNK1, "$(P):MEAS_MODE_SP PP")
+    field(DOL2, "1")
+    field(LNK2, "$(P):INT_CLK_SP PP")
+    field(DOL3, "0")
+    field(LNK3, "$(P):DELAY_CTRL_SP PP")
+}
+
+record(bo, "$(P):MODE_TC_CMD") {
+    field(DESC, "Switch to Track-Continuous mode")
+    field(ZNAM, "Idle")
+    field(ONAM, "Set T-C")
+    field(HIGH, "0.1")
+    field(FLNK, "$(P):MODE_TC_SEQ")
+}
+
+record(seq, "$(P):MODE_TC_SEQ") {
+    field(DESC, "Set T-C mode sequence")
+    field(DOL1, "0")
+    field(LNK1, "$(P):MEAS_MODE_SP PP")
+    field(DOL2, "0")
+    field(LNK2, "$(P):INT_CLK_SP PP")
+    field(DOL3, "0")
+    field(LNK3, "$(P):DELAY_CTRL_SP PP")
+}
+
+
+# =====================================================================
+# HOLD DELAY
+# Adjustable from 0 to 255 ns in steps of 1 ns.
+# Used in S&H mode to set trigger timing.
+# =====================================================================
+
+record(longout, "$(P):HOLD_DELAY_SP") {
+    field(DESC, "Hold delay setpoint")
+    field(DTYP, "stream")
+    field(OUT,  "@bcm-rf.proto setHoldDelay $(PORT)")
+    field(EGU,  "ns")
+    field(DRVL, "0")
+    field(DRVH, "255")
+    field(HOPR, "255")
+    field(LOPR, "0")
+    field(FLNK, "$(P):HOLD_DELAY_RB")
+    info(autosaveFields, "VAL")
+}
+
+record(longin, "$(P):HOLD_DELAY_RB") {
+    field(DESC, "Hold delay readback")
+    field(DTYP, "stream")
+    field(INP,  "@bcm-rf.proto getHoldDelay $(PORT)")
+    field(EGU,  "ns")
+    field(HOPR, "255")
+    field(LOPR, "0")
+    field(PINI, "YES")
+}
+
+
+# =====================================================================
+# CAL-FO MODE (optional calibrated pulse generator)
+# =====================================================================
+
+record(bo, "$(P):CALFO_SP") {
+    field(DESC, "CAL-FO mode enable")
+    field(DTYP, "stream")
+    field(OUT,  "@bcm-rf.proto setCalFO $(PORT)")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    field(FLNK, "$(P):CALFO_RB")
+    info(autosaveFields, "VAL")
+}
+
+record(bi, "$(P):CALFO_RB") {
+    field(DESC, "CAL-FO mode readback")
+    field(DTYP, "stream")
+    field(INP,  "@bcm-rf.proto getCalFO $(PORT)")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    field(PINI, "YES")
+}
+
+
+# =====================================================================
+# REVERSE FUNCTION
+# When ON, device converts voltage to charge (S&H) or current (T-C).
+# Output units change from microvolts to femtocoulombs or nanoamperes.
+# =====================================================================
+
+record(bo, "$(P):REV_FUNC_SP") {
+    field(DESC, "Reverse function enable")
+    field(DTYP, "stream")
+    field(OUT,  "@bcm-rf.proto setReverseFunc $(PORT)")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    field(FLNK, "$(P):REV_FUNC_RB")
+    info(autosaveFields, "VAL")
+}
+
+record(bi, "$(P):REV_FUNC_RB") {
+    field(DESC, "Reverse function readback")
+    field(DTYP, "stream")
+    field(INP,  "@bcm-rf.proto getReverseFunc $(PORT)")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    field(PINI, "YES")
+}
+
+
+# =====================================================================
+# ADC SAMPLES PER TRIGGER
+# Number of ADC samples averaged per measurement (1 to 65535)
+# =====================================================================
+
+record(longout, "$(P):ADC_SAMPLES_SP") {
+    field(DESC, "ADC samples per trigger")
+    field(DTYP, "stream")
+    field(OUT,  "@bcm-rf.proto setADCSamples $(PORT)")
+    field(DRVL, "1")
+    field(DRVH, "65535")
+    field(HOPR, "65535")
+    field(LOPR, "1")
+    field(VAL,  "1")
+    field(FLNK, "$(P):ADC_SAMPLES_RB")
+    info(autosaveFields, "VAL")
+}
+
+record(longin, "$(P):ADC_SAMPLES_RB") {
+    field(DESC, "ADC samples readback")
+    field(DTYP, "stream")
+    field(INP,  "@bcm-rf.proto getADCSamples $(PORT)")
+    field(HOPR, "65535")
+    field(LOPR, "1")
+    field(PINI, "YES")
+}
+
+
+# =====================================================================
+# SERIAL NUMBER (read-only)
+# =====================================================================
+
+record(longin, "$(P):SERIAL_NUM_RB") {
+    field(DESC, "Device serial number")
+    field(DTYP, "stream")
+    field(INP,  "@bcm-rf.proto getSerialNumber $(PORT)")
+    field(PINI, "YES")
+}
+
+
+# =====================================================================
+# SAVE CONFIGURATION TO EEPROM
+# =====================================================================
+
+record(bo, "$(P):SAVE_CFG_CMD") {
+    field(DESC, "Save config to EEPROM")
+    field(DTYP, "stream")
+    field(OUT,  "@bcm-rf.proto saveConfig $(PORT)")
+    field(ZNAM, "Idle")
+    field(ONAM, "Save")
+    field(HIGH, "0.1")
+}
+
+
+# =====================================================================
+# CALIBRATION CONSTANTS (device internal, IEEE754 hex)
+# These PVs write/read the raw 16-bit halves of the IEEE754 floats
+# stored in the device's PIC microcontroller.
+# Upper = most significant 16 bits, Lower = least significant 16 bits.
+# =====================================================================
+
+# --- Qcal / Ical ---
+
+record(longout, "$(P):CAL_QI_HI_SP") {
+    field(DESC, "Qcal/Ical upper 16-bit (hex)")
+    field(DTYP, "stream")
+    field(OUT,  "@bcm-rf.proto setCalQI_Hi $(PORT)")
+    field(HOPR, "65535")
+    field(LOPR, "0")
+}
+
+record(longout, "$(P):CAL_QI_LO_SP") {
+    field(DESC, "Qcal/Ical lower 16-bit (hex)")
+    field(DTYP, "stream")
+    field(OUT,  "@bcm-rf.proto setCalQI_Lo $(PORT)")
+    field(HOPR, "65535")
+    field(LOPR, "0")
+}
+
+record(longin, "$(P):CAL_QI_LO_RB") {
+    field(DESC, "Qcal/Ical lower 16-bit readback")
+    field(DTYP, "stream")
+    field(INP,  "@bcm-rf.proto getCalQI_Lo $(PORT)")
+    field(PINI, "YES")
+    field(FLNK, "$(P):CAL_QI_HI_RB")
+}
+
+record(longin, "$(P):CAL_QI_HI_RB") {
+    field(DESC, "Qcal/Ical upper 16-bit readback")
+    field(DTYP, "stream")
+    field(INP,  "@bcm-rf.proto getCalQI_Hi $(PORT)")
+}
+
+# --- Ucal ---
+
+record(longout, "$(P):CAL_U_HI_SP") {
+    field(DESC, "Ucal upper 16-bit (hex)")
+    field(DTYP, "stream")
+    field(OUT,  "@bcm-rf.proto setCalU_Hi $(PORT)")
+    field(HOPR, "65535")
+    field(LOPR, "0")
+}
+
+record(longout, "$(P):CAL_U_LO_SP") {
+    field(DESC, "Ucal lower 16-bit (hex)")
+    field(DTYP, "stream")
+    field(OUT,  "@bcm-rf.proto setCalU_Lo $(PORT)")
+    field(HOPR, "65535")
+    field(LOPR, "0")
+}
+
+record(longin, "$(P):CAL_U_LO_RB") {
+    field(DESC, "Ucal lower 16-bit readback")
+    field(DTYP, "stream")
+    field(INP,  "@bcm-rf.proto getCalU_Lo $(PORT)")
+    field(PINI, "YES")
+    field(FLNK, "$(P):CAL_U_HI_RB")
+}
+
+record(longin, "$(P):CAL_U_HI_RB") {
+    field(DESC, "Ucal upper 16-bit readback")
+    field(DTYP, "stream")
+    field(INP,  "@bcm-rf.proto getCalU_Hi $(PORT)")
+}
+
+
+# =====================================================================
+# TEMPERATURE CORRECTION (operator-entered values)
+# From Calibration Report temperature dependence data.
+# Corrected voltage: Vcorr = Vmeas + c_bcm*(T_cabinet - T_ref)
+#                                   + c_turbo*(T_turbo - T_ref)
+# =====================================================================
+
+record(ao, "$(P):TEMP_COEFF_BCM_SP") {
+    field(DESC, "Temp coefficient BCM-RF-E (V/K)")
+    field(EGU,  "V/K")
+    field(PREC, "6")
+    field(VAL,  "0")
+    field(PINI, "YES")
+    info(autosaveFields, "VAL")
+}
+
+record(ao, "$(P):TEMP_COEFF_TURBO_SP") {
+    field(DESC, "Temp coefficient Turbo-ICT (V/K)")
+    field(EGU,  "V/K")
+    field(PREC, "6")
+    field(VAL,  "0")
+    field(PINI, "YES")
+    info(autosaveFields, "VAL")
+}
+
+record(ao, "$(P):TEMP_REF_SP") {
+    field(DESC, "Reference temperature at calibration")
+    field(EGU,  "degC")
+    field(PREC, "1")
+    field(VAL,  "23.0")
+    field(PINI, "YES")
+    info(autosaveFields, "VAL")
+}
+
+record(ai, "$(P):TEMP_CABINET") {
+    field(DESC, "Cabinet ambient temperature")
+    field(EGU,  "degC")
+    field(PREC, "1")
+    field(VAL,  "23.0")
+}
+
+record(ai, "$(P):TEMP_TURBOICT") {
+    field(DESC, "Turbo-ICT ambient temperature")
+    field(EGU,  "degC")
+    field(PREC, "1")
+    field(VAL,  "23.0")
+}
+
+# Temperature-corrected voltage
+# Vcorr = Vmeas + c_bcm*(T_cab - T_ref) + c_turbo*(T_turbo - T_ref)
+record(calc, "$(P):VOLTAGE_CORR_RB") {
+    field(DESC, "Temperature-corrected voltage")
+    field(INPA, "$(P):VOLTAGE_RB CP")
+    field(INPB, "$(P):TEMP_COEFF_BCM_SP")
+    field(INPC, "$(P):TEMP_CABINET")
+    field(INPD, "$(P):TEMP_REF_SP")
+    field(INPE, "$(P):TEMP_COEFF_TURBO_SP")
+    field(INPF, "$(P):TEMP_TURBOICT")
+    field(CALC, "A+B*(C-D)+E*(F-D)")
+    field(EGU,  "V")
+    field(PREC, "6")
+}
+
+
+# =====================================================================
+# STATUS AND DIAGNOSTICS
+# =====================================================================
+
+# Connection status indicator
+record(calc, "$(P):CONNECTED") {
+    field(DESC, "Device connection status")
+    field(INPA, "$(P):MEAS_RAW_RB.SEVR CP")
+    field(CALC, "A<3")
+    field(SCAN, "Passive")
+}
+
+# Measurement mode display (combines mode info)
+record(mbbi, "$(P):MODE_DISP") {
+    field(DESC, "Operating mode display")
+    field(INP,  "$(P):SWITCH_CFG_RB CP")
+    field(ZRVL, "0")
+    field(ZRST, "T-C Ext")
+    field(ONVL, "1")
+    field(ONST, "T-C Ext OB-Trig")
+    field(TWVL, "2")
+    field(TWST, "T-C")
+    field(THVL, "3")
+    field(THST, "T-C OB-Trig")
+    field(FRVL, "4")
+    field(FRST, "T-C Clk")
+    field(FVVL, "5")
+    field(FVST, "S&H Ext Clk")
+    field(SXVL, "6")
+    field(SXST, "S&H")
+    field(SVVL, "7")
+    field(SVST, "S&H On-board")
+}

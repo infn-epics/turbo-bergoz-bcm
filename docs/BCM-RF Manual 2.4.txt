@@ -1,0 +1,2333 @@
+156 rue du Mont Rond
+Espace Allondon Ouest
+01630 Saint Genis Pouilly, France
+
+Tel:
++33 450 42 66 42
+Fax:
++33 450 42 66 43
+Email:info@bergoz.com
+
+Turbo-ICT & BCM-RF-E
+Turbo Integrating Current Transformer
+Beam Charge Monitor - RF Electronics
+
+User’s Manual
+
+Rev. 2.4
+
+U.S.A. :
+
+Japan :
+
+India :
+
+GMW Associates
+www.gmw.com
+955 Industrial Rd.
+San Carlos, CA 94070,
+U.S.A.
+Tel: +1 650 802 8292
+sales@gmw.com
+
+REPIC Corp.
+www.repic.co.jp
+28-3 Kita Otsuka 1-Chome
+Toshima-ku, Tokyo 170-0004,
+Japan
+Tel: +81 03 3918 5326
+sales@repic.co.jp
+
+GEEBEE International
+www.geebeeinternational.com
+12 - A, Lane W - 16,
+Sainik Farms, New Delhi,
+India
+Tel: +91 98107 54666
+sahil@geebeeinternational.com
+
+Bergoz Instrumentation - 01630 Saint Genis Pouilly, France - http://www.bergoz.com
+TVA Nº FR88414997130 - SAS capital 152K€ - Siren 414 997 130 R.C.S. Bourg - APE 2651B
+
+Revision History
+
+Version
+
+Release date
+
+Changes
+
+0.0
+
+Dec. 2012
+
+First release
+
+0.1
+
+Jan. 2013
+
+0.2
+
+Mar. 2013
+
+0.3
+
+Jul. 2013
+
+Connectors pins allocation: corrected & updated –
+Summary: cleaning – Sensitivity: small change
+DB9 Remote control section removed – Architecture: DB9
+remote control removed - Pin allocations table updated –
+Summary updated
+USB update.
+
+1.0
+
+Feb. 2014
+
+1.1
+
+Dec. 2014
+
+SENSITIVITY: Qcal and Ucal added, log10() instead of
+exp(). GUI section added, FIRMWARE section added.
+CALIBRATION section added. ARCHITECURE:
+DB9,6ADC.TRG.OUT added.
+General improvements and corrections
+
+2.0
+
+Nov. 2016
+
+User Manual upgrade
+
+2.1
+
+Jan. 2017
+
+Cosmetics
+
+2.2
+
+May 2017
+
+2.3
+
+Oct. 2017
+
+2.4
+
+Nov. 2017
+
+Format and text corrections
+Improved electrical specifications of input and output signals
+Additional information regarding the data send by the BCMRF via USB.
+Corrected a typo in the USB data format description.
+Added comments to the input and output signals description.
+Corrections in the specifications.
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 1
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+Table of Contents
+INITIAL INSPECTION, WARRANTY, ASSISTANCE .........................................................................................2	  
+YOU JUST RECEIVED A TURBO-ICT & BCM-RF-E .........................................................................................3	  
+General description...........................................................................................................................................3	  
+Determine in which operating mode BCM-RF-E is set: T-C for current measurement or S&H for bunch
+charge measurement .........................................................................................................................................4	  
+QUICK CHECK ...........................................................................................................................................................5	  
+Current Transformer Test Device ...................................................................................................................5	  
+BCM-RF-E front panel description ................................................................................................................7	  
+BCM-RFC rear panel description ...................................................................................................................8	  
+Setup 1: Charge measurements, Sample & Hold mode (S&H) ....................................................................9	  
+Setup 2: Current measurements, Track Continuous mode (T-C)..............................................................13	  
+Setup 3: Charge measurements using the embedded calibrated generator (–CAL-FO option), Sample &
+Hold mode (S&H) ...........................................................................................................................................16	  
+SENSITIVITY of the TURBO-ICT and BCM-RF-E .............................................................................................19	  
+TEMPERATURE DEPENDANCE of the TURBO-ICT and BCM-RF-E ...........................................................20	  
+GRAPHICAL USER INTERFACE .........................................................................................................................21	  
+Installation .......................................................................................................................................................21	  
+BCM-RF-E communication ...........................................................................................................................22	  
+GUI user guide ................................................................................................................................................23	  
+BCM-RF-E FIRMWARE ..........................................................................................................................................25	  
+USB COMMUNICATION WITH THE BCM-RF-E .............................................................................................25	  
+BCM-RF-E I/O AND SWITCHES ...........................................................................................................................29	  
+ARCHITECTURE .....................................................................................................................................................30	  
+SPECIFICATIONS ....................................................................................................................................................31	  
+Charge measurements ....................................................................................................................................31	  
+Current measurements ...................................................................................................................................31	  
+Input signals, output signals and other interfaces .......................................................................................32	  
+BCM-RF-E ......................................................................................................................................................33	  
+BCM-RFC power supply and fuses ...............................................................................................................33	  
+Connectors and pin allocation .......................................................................................................................34	  
+RECOMMENDATIONS ABOUT CABLES AND INSTALLATION .................................................................35	  
+ACCESSORIES ..........................................................................................................................................................36	  
+BCM Chassis: ref. BCM-RFC/xx ..................................................................................................................36	  
+Card Extender: ref. BCM-XTD ....................................................................................................................36	  
+SCHEMATICS & BOARD LAYOUT .....................................................................................................................37	  
+ACKNOWLEDGEMENTS .......................................................................................................................................37	  
+ANNEX 1 .....................................................................................................................................................................38	  
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 2
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+INITIAL INSPECTION, WARRANTY, ASSISTANCE
+INITIAL INSPECTION
+It is recommended that the shipment be inspected immediately upon delivery. If it is damaged in
+any way, contact Bergoz Instrumentation or your distributor. The content of the shipment should
+be compared to the items listed on the invoice. Any discrepancy should be notified to Bergoz
+Instrumentation or its distributor immediately. Unless promptly notified, Bergoz Instrumentation
+will not be responsible for such discrepancies.
+WARRANTY
+Bergoz Instrumentation warrants its beam monitors to operate within specifications under normal
+use for a period of 12 months from the date of shipment. Spares, repairs and replacement parts are
+warranted for 90 days. Products not manufactured by Bergoz Instrumentation are covered solely
+by the warranty of the original manufacturer. In exercising this warranty, Bergoz Instrumentation
+will repair, or at its option, replace any product returned to Bergoz Instrumentation or its
+distributor within the warranty period, provided that the warrantor’s examination discloses that the
+product is defective due to workmanship or materials and that the defect has not been caused by
+misuse, neglect, accident or abnormal conditions or operations. Damages caused by ionizing
+radiations are specifically excluded from the warranty. Bergoz Instrumentation and its local
+distributors shall not be responsible for any consequential, incidental or special damages.
+ASSISTANCE
+Assistance in installation, use or calibration of Bergoz Instrumentation beam monitors is available
+from Bergoz Instrumentation, 01630 Saint-Genis-Pouilly, France. It is recommended to send a
+detailed description of the problem by e-mail.
+SERVICE PROCEDURE
+Products requiring maintenance should be returned to Bergoz Instrumentation or its distributor.
+Bergoz Instrumentation will repair or replace any product under warranty at no charge. The
+purchaser is only responsible for transportation charges.
+For products in need of repair after the warranty period, the customer must provide a purchase
+order before repairs can be initiated. Bergoz Instrumentation can issue fixed price quotations for
+most repairs. However, depending on the damage, it may be necessary to return the equipment to
+Bergoz Instrumentation to assess the cost of repair.
+RETURN PROCEDURE
+All products returned for repair should include a detailed description of the defect or failure and
+name of the user. Contact Bergoz Instrumentation or your local distributor to determine where to
+return the product. Returns must be notified by e-mail prior to shipment.
+Return should be made prepaid. Bergoz Instrumentation will not accept freight-collect shipment.
+Shipment should be made via United Parcel Service, DHL or Federal Express. Within Europe, the
+transportation service offered by the Post Offices “EMS” (Chronopost, Datapost, etc.) can be
+used. The delivery charges or customs clearance charges arising from the use of other carriers
+will be charged to the customer.
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+Page 3
+
+YOU JUST RECEIVED A TURBO-ICT & BCM-RF-E
+This manual applies to BCM-RF-E revisions 204.4 with firmware 2.5 and above.
+It does NOT apply to either earlier BCM-RF-E revisions, earlier firmware versions, BCM-IHR or
+BCM-CA.
+The Turbo-ICT & BCM-RF system includes:
+Description
+
+Order code
+
+1
+
+Turbo Integrating Current Transformer
+
+e.g. ICT-CF4²1/2-34.9-40-UHV-Turbo1
+
+2
+
+BCM-RF-E electronics module
+
+BCM-RF-E/xxxMHz
+XXX: operating frequency
+
+3
+
+19” RF-shielded chassis for BCM-E
+modules of all versions with power
+supply and spare power supply
+
+BCM-RFC/XX
+XX: number of wired BCM stations
+
+4
+
+Turbo-ICT to BCM-RFC chassis
+interconnect coaxial cable
+
+BCM-C/xxx or BCM-RHC/xxx
+xxx: cable length in meters
+
+Note: Turbo-ICT features an enclosure attached to its side; it contains the FEFA Front-End
+Amplifier and Filter. When option -CAL-FO has been ordered, another enclosure is attached,
+containing the FO-triggered Calibrated pulse generator.
+BCM-RFC/xx RF shielded chassis is compatible with BCM-IHR-E
+BCM-RF-E and BCM-IHR-E electronics modules can be mixed in the same BCM-RFC/xx
+chassis.
+Power supply must however be dimensionned according to power consumption. Please contact
+Bergoz Instrumentation before adding more BCM modules into a chassis.
+General description
+The Turbo-ICT current sensor and BCM-RF-E electronics receiver perform bunch charge or
+average current measurements with low noise and high accuracy.
+Turbo-ICT combines an Integrating Current Transformer of a new kind and front-end filter and
+amplifier (FEFA) electronics in one assembly.
+FEFA includes a narrow-band filter, usually centered around 180 MHz, and a first amplifier stage.
+FEFA is powered from the BCM-RF-E electronics via the coaxial interconnect cable.
+BCM-RF-E electronics processes the signal from the Turbo-ICT via the FEFA through a 500 MHz
+low-pass filter and a narrow-band filter centered around the same frequency as the FEFA is. This
+contributes to effective out-of-band signals and noise rejection. The receiver implements a
+logarithmic RF amplifier to achieve 90 dB input dynamic range and 10 MHz output bandwidth.
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 4
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+The BCM-RF-E allows two modes of operation:
+1.   Track-Continuous mode (T-C): This mode is suitable for CW beam or long macropulse
+average current measurements. The BCM-RF-E output provides the logarithmic envelope
+of the Turbo-ICT signal in 10 MHz bandwidth. 10 MHz output bandwidth allows to
+observe beam current variations with 35 ns risetime when BCM-RF-E is set to TrackContinuous mode.
+2.   Sample & Hold mode (S&H): This mode is suitable for single bunch charge
+measurements. The BCM-RF-E output provides the apex of the logarithmic envelope of
+the Turbo-ICT signal. The output is a DC voltage level held up to 100 ms or until the next
+bunch arrives. This mode can be used for pulse repetition rates up to 2 MHz.
+Both modes are described in this manual.
+The BCM-RF-E embeds a PIC microcontroller that can be used for BCM-RF-E configuration and
+data read-out. The communication is done via USB.
+
+Output View
+
+Qin
+
+Signal View
+
+Determine in which operating mode BCM-RF-E is set: T-C for current measurement or S&H
+for bunch charge measurement
+The BCM-RF-E operating mode can be selected by sending controls via USB, e.g. with the BCMRF system Graphical User Interface (GUI). Details on the GUI and the USB communication are
+described later in this manual.
+The BCM-RF-E microcontroller is factory-loaded with calibration constants corresponding to its
+associated Turbo-ICT and the operating mode is preset according to the purchase order. The
+calibration constants (see section ‘Sensitivity of the Turbo-ICT and BCM-RF-E’ for details) can
+also be found in the Calibration Report provided with the Turbo-ICT and BCM-RF-E.
+
+WARNING: Jumper configuration & PIC configuration
+At the time of delivery, your BCM-RF-E is in the "Ex-factory" configuration.
+Jumpers and PIC microcontroller are configured according to your order.
+Do not change those settings until you are familiar with the BCM-RF system.
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 5
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+QUICK CHECK
+You just received your Turbo-ICT and BCM-RF system. Before installation in the accelerator,
+you should already make a few tests in your workshop to get familiar with the product.
+Depending on the signal generators at your disposal : RF source and/or pulse genrator, you can
+execute different quick check procedures:
+1.   Measure bunch charge in S&H mode, using a fast pulse generator;
+2.   Measure CW beam current or long macropulse current in T-C mode, using an RF signal
+generator;
+3.   Measure the calibrated pulse charge in S&H mode, from the optional embedded
+calibrated pulse generator. Option -CAL-FO is required.
+Current Transformer Test Device
+When performing measurements using a pulse generator or RF signal generator, as described in
+quick check setups 1 and 2, a test device is required to transmit the signal through the Turbo-ICT
+aperture. This test device is described hereafter. It is not required for quick check setup 3 when
+the embedded calibrated pulse generator (option -CAL-FO) is used for generating the input signal.
+Turbo-ICT test device description
+Turbo-ICT
+
+Male Burndy pin
+soldered to SMA pin
+Bulk head SMA
+IN
+
+Female Burndy pin
+soldered to SMA pin
+Bulk head SMA
+OUT
+
+Dual-sided printed circuit boards
+Four holes >8 mm diameter to screw plates on Turbo-ICT
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+Page 6
+
+Dual-sided printed circuit boards
+
+Bulk head SMA
+IN
+
+Bulk head SMA
+OUT
+
+Male Burndy pin
+soldered to SMA pin
+
+Female Burndy pin
+soldered to SMA pin
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 7
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+BCM-RF-E front panel description
+
+Signal View:
+Logarithmic envelope of the Turbo-ICT signal (50 Ω or 1 MΩ readout).
+Output View:
+Output voltage logarithmically proportional to the input charge (in S&H mode)
+or to the average input current (in T-C mode) (1 MΩ readout).
+Hold View: (S&H mode only)
+Rising edge indicates approximately the hold time, i.e. the time when the
+BCM-RF starts to hold the voltage of the logarithmic envelop (50 Ω readout).
+Front panel LED:
+Blinks in S&H mode when a trigger occurs. Permanently on in T-C mode.
+USB connector type B:
+Data readout and remote control.
+Hold Delay front panel trimmer:
+Used to fine adjust the hold time when the PIC microcontroller is not installed.
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 8
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+BCM-RFC rear panel description
+
+Remote control:
+DB9 – pin 6: ADC TTL trigger output, i.e. trigger signal output to
+synchronize the user’s ADC with the BCM-RF-E timing.
+All other DB9 pins are not connected.
+
+BCM Input:
+BCM-RF-E input signal connected to the Turbo-ICT FEFA output via the
+coaxial interconnect cable.
+BCM Output:
+Output voltage logarithmically proportional to the input charge (in S&H mode)
+or to the average input current (in T-C mode) (1 MΩ readout).
+
+Trigger in: (S&H mode only)
+External trigger input, 50 Ω terminated.
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 9
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+QUICK CHECK...
+Setup 1: Charge measurements, Sample & Hold mode (S&H)
+What you need:
+•  
+
+Turbo-ICT
+
+•  
+
+Current Transformer test device (see page 5 for description)
+
+•  
+
+BCM-RF-E electronics module
+
+•  
+
+BCM-RFC/xx chassis
+
+•  
+
+Turbo-ICT to BCM-RFC/xx coaxial interconnect cable
+
+•  
+
+Fast pulse generator: <2 ns fwhm, ~5 V peak (use attenuators if necessary), <1 ns rise time
+<1 MHz repetition rate or externally triggered
+The pulse polarity is not relevant.
+
+•  
+
+4-channel oscilloscope with 500 MHz bandwidth or higher
+
+•  
+
+Voltmeter
+
+•  
+
+Short (1–2 m) coaxial cables and SMA-BNC adapters
+
+•  
+
+BNC T-adapter
+Setup
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 10
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+1)   At time of initial shipment, the AC mains voltage is set according to the country of destination.
+A label on the power supply units shows the AC voltage it is set up to. Check that it
+corresponds to your AC mains voltage. Turn OFF the chassis power switch and connect the AC
+mains to the chassis.
+2)   Mount the Current Transformer test device onto the Turbo-ICT.
+3)   Connect the Turbo-ICT FEFA output to the BCM-RFC/xx input on the chassis rear panel using
+the coaxial interconnect cable. WARNING: +15 Vdc is present on the BCM-RFC/xx input
+connector to feed the Turbo-ICT FEFA when the chassis is powered.
+4)   Connect the pulse generator output to the Current Transformer test device input.
+5)   Connect a 50 Ω load to the Current Transformer test device output.
+6)   Connect the BCM-RF-E Output View (front panel) to the voltmeter 1 MΩ input and to an
+oscilloscope 1 MΩ input, using the BNC T-adapter.
+7)   Connect the BCM-RF-E Signal View (front panel) to another oscilloscope 1 MΩ input.
+8)   Connect the BCM-RF-E Hold View (front panel) to the oscilloscope 50 Ω input.
+9)   Connect the BCM-RF-E USB connector to a PC on which the BCM-RF system Graphical User
+Interface has been installed (See the Graphical User Interface section for details about the
+installation and the determination of the correct COM port).
+10)  Turn ON the BCM-RFC/xx chassis power switch.
+11)  Select the COM port to which the BCM-RF-E is connected, start the BCM-RF system GUI and
+set the following parameters:
+•   Sample and Hold mode (S&H)
+•   On Board trigger mode
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 11
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+12)  Turn ON your pulse generator.
+The data acquisition will start automatically. The BCM-RF-E output voltage to USB is
+displayed on the GUI’s graph. The corresponding input charge can be displayed by clicking on
+the Reverse Transfer Function button, provided that the PIC microcontroller was factory-loaded
+with the correct calibration constants (see the Sensitivity of Turbo-ICT & BCM-RF-E section
+for details).
+The BCM-RF-E output voltage displayed on the GUI’s graph can be compared to the voltage
+measured by the voltmeter connected to the BCM-RF-E front panel BNC connector Output
+View.
+Note: The BCM-RF-E output voltage is held constant for up to 100 ms after the pulse. If the
+pulse repetition rate is <10 Hz, the voltmeter must be triggered, e.g. using the BCM-RF-E ADC
+TRG Out, pin 6 of the rear panel DB9. Its acquisition must occur during the 100 ms following
+the trigger.
+13)  Observe the waveforms on the oscilloscope.
+The trigger timing can be adjusted
+with the GUI’s Hold Delay slider.
+
+Ch 4 - Input pulse
+Fwhm = 200ps
+
+Ch 2 - Output View
+(Voltage logarithmically proportional
+to the input charge)
+
+Ch 3 - Hold View
+(Rising edge approximately indicates
+time when signal is sampled)
+
+Ch 1 - Signal View
+(Logarithmic envelope of
+Turbo-ICT signal)
+
+Channel 4 (green) shows the short input pulse which goes through the Turbo-ICT aperture.
+Channel 2 (magenta) shows the BCM-RF-E Output. This voltage is held constant for up to
+100 ms after the pulse.
+Channel 3 (cyan) shows the BCM-RF-E Hold View. The rising edge of this signal
+approximately indicates the time when the signal is sampled.
+Channel 1 (orange) shows the BCM-RF-E Signal View. This signal is the logarithmic envelope
+of the signal coming from the Turbo-ICT FEFA output.
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 12
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+14)  Trigger timing adjustment
+The BCM-RF-E Signal View shows the logarithmic envelope of the signal coming from the
+Turbo-ICT FEFA output. Its apex is proportional to the input pulse charge logarithm.
+The BCM-RF-E Hold View output shows the trigger timing. Its rising edge indicates
+approximately the time when the output signal is sampled.
+To make a correct measurement of the input pulse charge, the trigger timing must be adjusted
+so that the trigger rising edge coincides with the Signal View apex.
+Two methods can be used to properly adjust the hold time:
+1.   Measure the BCM-RF-E output voltage on the voltmeter and fine adjust the GUI’s Hold
+Delay slider until the maximum voltage reading occurs. To make sure that you are close
+to the apex, it is recommended to visualize Signal View and Hold View waveforms on
+the oscilloscope while performing the Hold Delay adjustment.
+2.   Use the GUI’s Hold Delay Scan utility. Perform a Hold Delay scan and note the Hold
+Delay value corresponding to the output voltage apex. Then return this value to the
+Hold Delay slider of the GUI’s main window.
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 13
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+QUICK CHECK...
+Setup 2: Current measurements, Track Continuous mode (T-C)
+What you need:
+•  
+
+Turbo-ICT
+
+•  
+
+Current Transformer test device (see page 5 for description)
+
+•  
+
+BCM-RF-E electronics module
+
+•  
+
+BCM-RFC/xx chassis
+
+•  
+
+Turbo-ICT to BCM-RFC/xx coaxial interconnect cable
+
+•  
+
+RF signal generator
+
+•  
+
+4-channel oscilloscope with 500 MHz bandwidth or higher
+
+•  
+
+Voltmeter
+
+•  
+
+Short (1–2 m) coaxial cables and SMA-BNC adapters.
+
+•  
+
+BNC T-adapter
+Setup
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 14
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+1)   At time of initial shipment, the AC mains voltage is set according to the country of destination.
+A label on the power supply units shows the AC voltage it is set up to. Check that it
+corresponds to your AC mains voltage. Turn OFF the chassis power switch and connect the AC
+mains to the chassis.
+2)   Mount the Current Transformer test device onto the Turbo-ICT.
+3)   Connect the Turbo-ICT FEFA output to the BCM-RFC/xx input on the chassis rear panel using
+the coaxial interconnect cable. WARNING: +15 Vdc is present on the BCM-RFC/xx input
+connector to feed the Turbo-ICT FEFA when the chassis is powered.
+4)   Connect the RF signal generator output to the Current Transformer test device input.
+5)   Connect a 50 Ω load to the Current Transformer test device output.
+6)   Connect the BCM-RF-E Output View (front panel) to the voltmeter (1 MΩ input) and to the
+oscilloscope (1 MΩ input).
+7)   Connect the BCM-RF-E Signal View (front panel) to the oscilloscope (1 MΩ input).
+8)   Connect the BCM-RF-E USB connector to a PC on which the BCM-RF system Graphical User
+Interface has been installed (See the Graphical User Interface section for details about the
+installation and the determination of the correct COM port).
+9)   Turn ON the BCM-RFC/xx chassis power switch.
+10)  Select the COM port to which the BCM-RF-E is connected, start the BCM-RF system GUI and
+set the following parameters:
+•   Track Continuous mode (T-C)
+(Trigger Mode and Hold Delay slider are not used)
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 15
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+11)  Turn ON your RF signal generator:
+•   Set RF to the Turbo-ICT & BCM-RF-E operating frequency, e.g. 180 MHz
+•   Amplitude: -20 dBm
+The data acquisition starts automatically. The BCM-RF-E output voltage is displayed on the
+GUI’s graph. The corresponding input current can be displayed by clicking on the Reverse
+Transfer Function button, provided that the PIC microcontroller was factory-loaded with the
+correct calibration constants (see the Sensitivity of Turbo-ICT & BCM-RF-E section for
+details).
+The BCM-RF-E output voltage displayed on the GUI’s graph can be compared to the voltage
+measured by the voltmeter connected to the BCM-RF-E front panel output.
+12)  Change the amplitude of the RF signal generator sinewave and compare the BCM-RF-E output
+voltages measured by the GUI and by the voltmeter.
+13)  Waveform and reaction time.
+Observe on your oscilloscope the input sine waveform provided by the RF signal generator and
+the Output View signal from the BCM-RF-E front panel.
+The Output View signal is proportional to the logarithm of the current provided by the RF
+signal generator.
+You can observe the BCM-RF-E reaction time by creating a quick, i.e. <10 ns, step in the sine
+amplitude. The reaction time is the time span from the input amplitude change until the output
+value rises by 50%. It is about 110 ns.
+
+DC value is log.
+proportional to
+input current 1
+
+DC value is log.
+proportional to
+input current 2
+
+Ch 2 - Output View
+current 2
+
+Ch 1 – Input sine wave
+
+current 1
+
+Reaction time ~110 ns
+to 50% output rise
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 16
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+QUICK CHECK...
+Setup 3: Charge measurements using the embedded calibrated generator (–CAL-FO option),
+Sample & Hold mode (S&H)
+What you need:
+•  
+
+Turbo-ICT with –CAL-FO option
+
+•  
+
+Optical signal generator module (provided by Bergoz Instrumentation with –CAL-FO option to
+perform tests at reception)
+
+•  
+
+BCM-RF-E electronics module
+
+•  
+
+BCM-RFC/xx chassis
+
+•  
+
+Turbo-ICT to BCM-RFC/xx coaxial interconnect cable
+
+•  
+
+4-channel oscilloscope with 500 MHz bandwidth or higher
+
+•  
+
+Short (1–2 m) coaxial cables and SMA-BNC adapters.
+Setup
+
+1)   At time of initial shipment, the AC mains voltage is set according to the country of destination.
+A label on the power supply units shows the AC voltage it is set up to. Check that it
+corresponds to your AC mains voltage. Turn OFF the chassis power switch and connect the AC
+mains to the chassis.
+2)   Connect the Optical Signal Generator to the CAL-FO input (black) with a 1 mm core jacketed
+plastic optical fiber.
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 17
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+3)   Connect the Turbo-ICT FEFA output to the BCM-RF-E input (on the BCM-RFC/xx chassis
+rear panel) using the coaxial interconnect cable. WARNING: +15 Vdc is present on the BCMRF-E input SMA connector to feed the Turbo-ICT FEFA when the BCM-RF-E is powered.
+4)   Connect the BCM-RF-E Output View (front panel) to the oscilloscope (1 MΩ input).
+5)   Connect the BCM-RF-E Signal View (front panel) to the oscilloscope (1 MΩ input).
+6)   Connect the BCM-RF-E Hold View (front panel) to the oscilloscope (50 Ω input).
+7)   Connect the BCM-RF-E USB connector to a PC on which the BCM-RF system Graphical User
+Interface has been installed (See the Graphical User Interface section for details about the
+installation and the determination of the correct COM port).
+8)   Select the COM port to which the BCM-RF-E is connected, start the BCM-RF system GUI and
+set the following parameters:
+•   CAL-FO Mode enable
+(Measurement Mode, Trigger Mode and Hold Delay become inactive)
+
+When CAL-FO Mode is enabled, the BCM-RF-E operates in Sample & Hold mode and uses
+the On-board trigger. The BCM-RF system GUI thus automatically triggers after a pulse
+occurred at the Turbo-ICT input.
+The Hold Delay value for a pulse generated by the CAL-FO pulse generator is factorymeasured and saved in the PIC microcontroller. When CAL-FO Mode is enabled, this Hold
+Delay value is automatically loaded.
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 18
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+9)   Press the push-button on the Bergoz Optical Signal Generator to trigger the CAL-FO. A pulse
+of fixed parameters will be injected into the Turbo-ICT sensor. The GUI triggers and displays
+on its graph the corresponding BCM-RF-E output voltage. The related input charge can be
+displayed by clicking on the Reverse Transfer Function button, provided that the PIC
+microcontroller was factory-loaded with the correct calibration constants (see the Sensitivity of
+Turbo-ICT & BCM-RF-E section for details).
+10)  Observe the waveforms on the oscilloscope.
+
+Ch 2 - Output View
+(Voltage logarithmically
+proportional to the input charge)
+
+Ch 3 - Hold View
+(Rising edge approximately
+indicates time when signal is held)
+
+Ch 1 - Signal View
+(Logarithmic envelope of
+Turbo-ICT signal)
+
+Channel 2 (magenta) shows the BCM-RF-E Output. This voltage is held constant for up to
+100 ms after the pulse.
+Channel 3 (cyan) shows the BCM-RF-E Hold View. The rising edge of this signal
+approximately indicates the time when the signal is sampled.
+Channel 1 (orange) shows the BCM-RF-E Signal View. This signal is the logarithmic envelope
+of the signal coming from the Turbo-ICT FEFA output.
+The BCM-RF-E Signal View output gives the logarithmic envelope of the signal coming from
+the Turbo-ICT FEFA output. Its apex is proportional to the logarithm of the input pulse charge.
+The BCM-RF-E Hold View output shows the trigger timing. Its rising edge indicates
+approximately the time when the output signal is sampled.
+To make a correct measurement of the input pulse charge, the trigger timing must be adjusted
+so that the rising edge of the trigger signal coincides with the Signal View apex. When CALFO Mode is enabled, the correct hold delay value is automatically loaded, which was factorysaved in the microcontroller. You can observe on the oscilloscope the near coincidence of the
+Hold View signal rising edge and the Signal View apex.
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+Page 19
+
+SENSITIVITY of the TURBO-ICT and BCM-RF-E
+In Sample-and-Hold Mode (S&H mode) the BCM-RF-E measures charges of individual particle
+bunches. Its output signal is a voltage logarithmically proportional to the input bunch charge. In
+Track-Continuous Mode (T-C mode) the BCM-RF-E measures the average current of the particle
+beam. Its output signal is a voltage logarithmically proportional to the average input current.
+Beam
+
+Turbo-ICT
+
+50	  Ω coaxial cable
+
+BCM-RFC/xx with BCM-RF-E
+b
+
+𝑄"#
+
+𝐵𝐶𝑀Z[\ = 𝑈%&' 	  ×	  log_` a cd e
+
+〈𝐼"# 〉
+
+𝐵𝐶𝑀Z[\ = 𝑈%&' 	  ×	  log_` a cd e
+
+b345
+
+〈h 〉
+h345
+
+The sensitivity is defined as the reverse transfer function of the complete signal chain consisting
+of the Turbo-ICT, the interconnect cable and the BCM-RF-E.
+The sensitivity of a given combination of Turbo-ICT, interconnect cable and BCM-RF-E is
+provided in the Calibration Report. Each combination has its own sensitivity. Consequently, the
+sensitivity must be re-measured or re-calculated every time an item changes.
+Reverse transfer function (sensitivity):
+𝑄"# = 𝑄%&' 	  ×	  10
+𝐼"# = 𝐼%&' 	  ×	  10
+
+,-./01
+2345 	  	  (S&H	  mode)
+
+,-./01
+2345 	  	  (T − C	  mode)
+
+The calibration constants 𝑈%&' , 𝐼%&' and 𝑄%&' are factory-measured and provided in the Calibration
+Report. They are also saved in the BCM-RF-E PIC microcontroller. 𝑈%&' is measured in Volts, 𝐼%&'
+is measured in micro-Amperes and 𝑄%&' is measured in pico-Coulombs.
+During calibration, the attenuation of the coaxial interconnect cable between Turbo-ICT and
+BCM-RF-E is taken into account. If a different cable is used in the accelerator compared to the
+one used during the calibration, corrections to the sensitivity have to be applied by the user.
+The real cable attenuation can be obtained, for example, by network analyzer measurements of the
+transmission coefficient at the operating frequency. The full signal attenuation from the TurboICT output connector to the BCM-RF-E input connector must be taken into account.
+The cable attenuation only affects	  𝑄%&' and 	  𝐼%&' . Hence, the correction is just an additional factor
+applied to the reverse transfer function:
+,-./01
+𝑅𝑒𝑎𝑙	  𝐶𝑎𝑏𝑙𝑒	  𝐴𝑡𝑡.
+𝑄"# = 𝑄%&' 	  × 	  
+	  ×	  10 2345 	  (S&H	  mode)
+𝐶𝑎𝑏𝑙𝑒	  𝐴𝑡𝑡. 𝑢𝑠𝑒𝑑	  𝑓𝑜𝑟	  𝑐𝑎𝑙𝑖𝑏𝑟𝑎𝑡𝑖𝑜𝑛
+
+𝐼"# = 𝐼%&' 	  × 	  
+
+,-./01
+𝑅𝑒𝑎𝑙	  𝐶𝑎𝑏𝑙𝑒	  𝐴𝑡𝑡.
+	  ×	  10 2345 	  (T − C	  mode)
+𝐶𝑎𝑏𝑙𝑒	  𝐴𝑡𝑡. 𝑢𝑠𝑒𝑑	  𝑓𝑜𝑟	  𝑐𝑎𝑙𝑖𝑏𝑟𝑎𝑡𝑖𝑜𝑛
+
+As long as the applied correction remains small, overall performance will not be affected. But in
+case of larger corrections, noise floor and saturation point might shift. Non-linearities might
+change as well. In such a case, Bergoz Instrumentation can provide further advice.
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+Page 20
+
+TEMPERATURE DEPENDANCE of the TURBO-ICT and BCM-RF-E
+The signals delivered by the Turbo-ICT and the BCM-RF-E depend weakly on temperature. The
+corresponding temperature coefficients are factory-measured and provided on the page
+"Temperature Dependence".
+The necessary corrections can be applied to the measured voltage:
+2
+𝑈ijklmn,pqrr = 𝑈ijklmn,stuv + 𝑐,-.lxy
+	   𝑇ijklmn − 𝑇ju{ 	  
+2
++	  𝑐|[}~Zlh-|
+	   𝑇•€r•ql‚j• − 𝑇ju{ 	  
+The corrected voltage is then used to determine the charge.
+
+Or the uncorrected voltage is used to determine the charge. And the corrections are applied to this
+charge:
+b
+
+⇒ 𝑄pqrr ≈ 𝑄stuv 	  × 1 + 𝑐,-.lxy 	   𝑇ijklmn − 𝑇ju{ 	  
+b
+
+× 1 + 𝑐|[}~Zlh-| 	   𝑇•€r•ql‚j• − 𝑇ju{ 	  
+
+2
+𝑐,-.lxy
+
+= Temperature coefficient of the output voltage with respect to changes
+of the BCM-RF-E temperature
+
+2
+𝑐|[}~Zlh-|
+= Temperature coefficient of the output voltage with respect to changes
+of the Turbo-ICT temperature
+b
+
+𝑐,-.lxy
+
+= Temperature coefficient of the measured charge with respect to changes
+of the BCM-RF-E temperature
+
+b
+
+𝑐|[}~Zlh-| = Temperature coefficient of the measured charge with respect to changes
+of the Turbo-ICT temperature
+𝑇ijklmn
+
+= Ambient temperature outside the BCM-RFC/xx chassis
+
+𝑇•€r•ql‚j• = Ambient temperature at the Turbo-ICT location
+𝑇ju{
+
+= Ambient temperature during BCM-RF-E and Turbo-ICT calibration
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 21
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+GRAPHICAL USER INTERFACE
+Bergoz Instrumentation provides a GUI to communicate with the BCM-RF-E via USB. It allows
+to control the BCM-RF-E operating modes and settings, and to acquire the BCM-RF-E output
+signal.
+This software was developed with LabVIEW 2014. It is provided as an executable file. The .vi file
+can be obtained upon request.
+Operating systems supported:
+Any operating system that can run LabVIEW 2014 or the corresponding run time environment and
+the NI-VISA driver package, e.g. Windows XP, Vista, 7, 8, 10.
+The installer package of the BCM-RF system GUI contains the LabVIEW run time environment
+and the VISA drivers. They can also be obtained from the National Instruments web site.
+The Microchip USB CDC serial driver might be required on Windows systems to communicate
+with the BCM-RF-E. This driver is part of the Microchip Libraries for Applications (USB). It is
+also provided with the BCM-RF-E or can be obtained from Bergoz Instrumentation upon request.
+Installation
+1)   A USB stick is attached to the last page of this manual. Open the folder containing the BCMRF system GUI Installer.
+2)   Run the Setup executable file and proceed with the installation.
+3)   The BCM-RF system GUI application (.exe) is installed at the location specified during
+installation. If necessary, also the LabVIEW 2014 run-time environment and the NI VISA
+drivers are installed.
+4)   The Microchip USB CDC serial driver is provided on the USB stick in a compressed ZIP
+archive. Un-compress this archive. A folder will be created containing the files necessary for
+driver installation.
+5)   Right-click on the file "mchpcdc.inf" and choose "Install".
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 22
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+BCM-RF-E communication
+1)   Connect the USB cable from the BCM-RF-E to the PC.
+2)   Windows automatically recognizes the device and loads the USB CDC serial driver.
+3)   In the device manager, look for the serial COM port number associated to the BCM-RF-E.
+
+4)   Choose the correct COM port in the GUI front panel.
+5)   Run the GUI, communication with BCM-RF-E USB port starts.
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 23
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+GUI user guide
+Two windows are selectable on the GUI front panel:
+1)   Main Window
+2)   Hold Delay Scan
+1)   Main Window
+The Main Window is where you find all BCM-RF-E controls. In the upper part is a graph
+displaying the BCM-RF-E output voltage. This voltage can be converted into input charge or input
+current when the Reverse Transfer Function is activated.
+Measurement Mode:
+S&H: Sample and Hold mode measures the bunch charge. It works with single bunches up to
+2 MHz repetition rate. This mode needs a trigger, either on-board or external.
+T-C:
+
+Track Continuous mode measures the average beam current with a 10 MHz bandwidth,
+i.e., with 35 ns risetime falltime to beam current change. This mode is a free running
+process and does not use any trigger.
+
+Trigger Mode:
+On-board: The BCM-RF-E embeds an on-board trigger synchronized to the incoming TurboICT signal.
+External:
+
+The BCM-RF-E can be triggered by an external TTL rising edge. The “Trigger in”
+SMA connector is located on the BCM-RFC/xx chassis rear panel.
+
+Trigger ADC Out:
+This indicator blinks when a new signal arrives. It is only available in S&H mode.
+Hold Delay:
+The Hold Delay sets the BCM-RF-E trigger timing. The trigger rising edge must coincide with
+the apex of the input signal's logarithmic envelope. The Hold Delay needs to be precisely
+adjusted each time the setup is modified.
+The Hold Delay value is adjustable from 0 to 255 ns in steps of 1 ns.
+CAL-FO Mode:
+CAL-FO Mode is a preset mode intended to be used with the embedded calibrated pulse
+generator (-CAL-FO option). When enabled, the GUI’s controls are set in a particular
+configuration:
+-   Measurement Mode: S&H
+-   Trigger Mode: On Board
+-   Hold Delay: Set to the Hold Delay value factory-measured (with the CAL-FO
+calibrated pulse generator) and stored in the BCM-RF-E microcontroller.
+“ADC Samples per Trigger” and “Reverse Transfer Function” remain accessible in this mode.
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 24
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+ADC Samples per Trigger:
+Defines the number of samples taken by the ADC per trigger (from 1 to 65535) for averaging.
+Reverse Transfer Function:
+When the GUI is set to S&H measurement mode, the Reverse Transfer Function calculates the
+input bunch charge from the BCM-RF-E output voltage based on the calibration constants Ucal
+and Qcal. The graph then displays the input charge in pico-Coulombs.
+When the GUI is set to T-C measurement mode, the Reverse Transfer Function calculates the
+average input current from the BCM-RF-E output voltage based on the calibration constants
+Ucal and Ical. The graph then displays the average input current in micro-Amperes.
+Configuration Save to BCM-RF-E:
+Stores the current BCM-RF-E settings in the BCM-RF-E microcontroller EPROM.
+
+2)   Hold Delay Scan
+The Hold Delay Scan window allows to perform a Hold Delay scan and determines the Hold
+Delay value corresponding to the output voltage apex. Once the scan has finished, this value needs
+to be transferred manually to the Hold Delay slider on the GUI's Main Window.
+Scan Start, Scan Stop, Scan Step and number of Trigger per Step are adjustable.
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 25
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+BCM-RF-E FIRMWARE
+The BCM-RF-E embeds a PIC18F2458 microcontroller from Microchip Technology Inc. This
+microcontroller includes a 12bit ADC and allows USB communication.
+The BCM-RF-E firmware is written in C using the MPLAB 8.9 IDE and the MPLAB C18
+compiler, both available from the Microchip website: www.microchip.com.
+The firmware code can be obtained from Bergoz Instrumentation upon request. Users can freely
+modify the code to fit at best their own application.
+To program and debug the microcontroller, remove the BCM-RF-E cover shield and connect an
+ICD3 Microchip In-circuit debugger to the RJ11-R connector (see I/O AND SWITCHES section).
+
+USB COMMUNICATION WITH THE BCM-RF-E
+Communication between host PC and BCM-RF-E is performed via the microcontroller's built-in
+USB to serial converter. The connection is done with a USB cable. But for data transmission, the
+BCM-RF-E looks being attached to a serial port of the host.
+The Microchip USB CDC serial driver might be required on Windows systems to communicate
+with the BCM-RF-E USB port. This driver is part of the Microchip Libraries for Applications
+(USB). It is also provided with the BCM-RF sytem or can be obtained from Bergoz
+Instrumentation upon request.
+The BCM-RF-E uses the Communication Devices Class USB protocol in POLLING mode.
+All data is transmitted as character strings.
+A general frame used to send a command from the host to the BCM-RF-E looks like this:
+1	  char	  
+
+1	  char	  
+
+4	  char	  
+
+2	  char	  
+
+Frame	  type	   Frame	  number	   Write	  /	  Read	  indicator	  
+
+Value	  
+
+Termination	  
+
+'A'	  to	  'Z'	  
+
+':'	  write	  data	  to	  PIC	  
+
+0000	  to	  FFFF	   \n\0	  
+
+or	  
+
+HEX	  value	  
+
+'0'	  to	  '9'	  
+
+1	  char	  
+
+Ascii(10)	  Ascii(0)	  
+
+'?'	  demand	  data	  from	  PIC	  
+
+Examples: "D0:0005\n\0", "D0?\n\0"
+If data is demanded from the BCM-RF-E using the read indicator '?', the four value characters can
+be omitted.
+It is possible to concatenate a few frames in a single line send to the BCM-RF-E. It is sufficient
+that each frame ends by \0 (ascii(0)) instead of \n\0 (ascii(10) ascii(0)).
+Warning!
+The BCM-RF-E firmware does not always disregard wrongly formatted frames. It is mandatory
+that the value send to the BCM-RF-E is exactly four characters long and contains only
+hexadecimal numbers. Otherwise the BCM-RF-E might misbehave.
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+Page 26
+
+A general frame received by the host from the BCM-RF-E looks like this:
+1	  char	  
+
+1	  char	  
+
+1	  char	  
+
+1	  char	  
+
+8	  char	  
+
+2	  char	  
+
+Frame	  type	   Frame	  number	   Separator	  	   Counter	  
+
+Separator	  
+
+Value	  
+
+Termination	  
+
+'A'	  to	  'Z'	  
+
+'='	  
+
+00000000	  to	  
+FFFFFFFF	  
+
+\n\0	  
+
+'0'	  to	  '9'	  
+
+':'	  
+
+4	  char	  
+
+0000	  to	  FFFF	  
+HEX	  value	  
+
+Ascii(10)	  Ascii(0)	  
+
+HEX	  value	  
+
+Example: "D0:0123=00000005\n\0"
+The analog BCM-RF-E output signal is periodically sampled by the microcontroller's 12bit ADC.
+The sampled value is then automatically sent to the host via USB.
+In S&H mode, when the microcontroller receives a new trigger by the ADC_TRG_OUT signal, it
+sends automatically a "new trigger" frame to the host.
+Frames automatically sent by the BCM-RF-E to the host:
+Frame	  type	  
+
+Description	  
+
+Example	  (omitting	  termination)	  
+
+A	  
+
+BCM-­‐RF-­‐E's	  ADC	  sampled	  voltage	  in	  microvolts	  
+
+A0:0123=00123ABC	  
+
+If	  the	  reverse	  function	  is	  activated	  (see	  frame	  type	  
+"M")	  data	  will	  be	  sent	  as	  femtocoulombs	  (S&H	  mode)	  
+or	  nanoamperes	  (T-­‐C	  mode)	  
+!	  
+
+New	  trigger	  frame	  (only	  available	  in	  S&H	  mode)	  
+
+!0:0123=00000001	  
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+Page 27
+
+This table describes the write commands that can be send by the host to the BCM-RF-E.
+These commands change the BCM-RF-E configuration. The BCM-RF-E will not send a response:
+Command	   Description	  
+
+Command	  
+Frame	  
+(omitting	  
+termination)	  
+
+Comments	  
+
+D	  
+
+Set	  on-­‐board's	  digital	  delay	  
+line	  value	  in	  nanoseconds	  
+
+D0:00xx	  
+	  
+
+"xx"	  must	  be	  an	  integer	  number	  in	  HEX	  format	  
+within	  the	  range	  "00"	  to	  "FF"	  
+
+E	  
+
+Save	  BCM-­‐RF-­‐E	  configuration	   E0:0001	  
+to	  microcontroller’s	  EEPROM	  
+
+	  
+
+I	  
+
+Set	  BCM-­‐RF-­‐E	  switch	  
+configuration	  
+
+I0:000x	  
+
+Single	  bits	  of	  "x"	  are	  used	  to	  switch	  modes:	  
+Bit0	  =	  0	  =>	  use	  external	  trigger	  
+Bit0	  =	  1	  =>	  use	  internal	  trigger	  
+Bit1	  =	  0	  =>	  T-­‐C	  mode	  
+Bit1	  =	  1	  =>	  S-­‐H	  mode	  
+Bit2	  =	  0	  =>	  Internal	  clock	  off	  (for	  T-­‐C	  mode)	  
+Bit2	  =	  1	  =>	  Internal	  clock	  on	  (for	  S-­‐H	  mode)	  
+Bit3	  =	  0	  =>	  Digital	  Delay	  line	  on,	  
+	  	  	  	  	  	  	  	  	  	  	  	  	  	  	  	  	  	  	  	  Front	  panel	  trimmer	  off	  
+Bit3	  =	  1	  =>	  Digital	  Delay	  line	  off,	  
+	  	  	  	  	  	  	  	  	  	  	  	  	  	  	  	  	  	  	  	  Front	  panel	  trimmer	  on	  
+
+	  
+
+K	  
+
+Activate	  CAL-­‐FO	  mode	  
+(optional)	  
+
+K0:0001	  
+K0:0000	  
+
+on	  
+off	  
+
+M	  
+
+Activate	  microcontroller’s	  
+reverse	  function	  algorithm	  
+
+M0:0001	  
+M0:0000	  
+
+on	  
+off	  
+
+For	  information	  on	  data	  
+formats,	  see	  the	  description	  
+of	  data	  frame	  "A".	  
+T	  
+
+Set	  number	  of	  ADC	  samples	  
+used	  for	  averaging	  
+
+T0:xxxx	  
+
+"xxxx"	  must	  be	  an	  integer	  number	  in	  HEX	  format	  
+within	  the	  range	  "0000"	  to	  "FFFF"	  
+
+V	  
+
+Set	  calibration	  constant	  
+Qcal	  (in	  picocoulombs)	  or	  
+Ical	  (in	  microamperes)	  
+
+V1:yyyy	  and	  
+V0:xxxx	  
+
+The	  calibration	  constants	  are	  transmitted	  as	  hexa-­‐
+decimal	  representations	  of	  IEEE754	  encoded	  32bit	  
+floating	  point	  numbers.	  
+The	  command	  frame	  V1:yyyy	  sends	  the	  upper	  16bit.	  
+The	  command	  frame	  V0:xxxx	  sends	  the	  lower	  16bit.	  
+Example:	  
+Decimal:	  
+Qcal	  =	  0.015766	  
+Binary	  of	  IEEE754	  encoded	  32bit	  float:	  
+Qcal	  =	  00111100100000010010011110110011	  
+HEX	  of	  IEEE754	  encoded	  32bit	  float:	  
+Qcal	  =	  3C8127B3	  
+The	  frames	  V1:3C81	  and	  V0:27B3	  need	  to	  be	  send.	  
+
+W	  
+
+Set	  calibration	  constant	  
+Ucal	  (in	  volts)	  
+
+W1:yyyy	  and	  
+W0:xxxx	  
+
+see	  above	  
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+Page 28
+
+This table describes the read commands that can be sent by the host to the BCM-RF-E and the
+corresponding response frames send by the BCM-RF-E back to the host.
+These commands do not change the BCM-RF-E on-board switch configuration:
+Command	   Description	  
+
+Command	  
+Response	  Frame	  
+Frame	  
+(omitting	  
+(omitting	  
+termination)	  
+termination)	  
+
+Comments	  
+
+D	  
+
+Read	  on-­‐board's	  digital	  
+delay	  line	  value	  in	  
+nanoseconds	  
+
+D0?	  
+
+D0:zzzz=000000xx	  
+
+"xx"	  is	  an	  integer	  number	  in	  HEX	  
+format	  within	  the	  range	  "00"	  to	  
+"FF"	  
+
+I	  
+
+Read	  BCM-­‐RF-­‐E	  switch	  
+configuration	  
+
+I0?	  
+
+I0:zzzz=0000000x	  
+
+See	  previous	  table	  for	  a	  
+description	  of	  the	  data	  format.	  
+
+K	  
+
+Read	  state	  of	  CAL-­‐FO	  mode	   K0?	  
+(optional)	  
+
+K0:zzzz=00000001	  
+K0:zzzz=00000000	  
+
+on	  
+off	  
+
+M	  
+
+Read	  state	  of	  reverse	  
+function	  algorithm	  
+
+M0?	  
+
+M0:zzzz=00000001	   on	  
+M0:zzzz=00000000	   off	  
+
+S	  
+
+Read	  BCM-­‐RF-­‐E	  serial	  
+number	  
+
+S0?	  
+
+S0:zzzz=xxxxxxxx	  
+
+"xxxxxxxx"	  is	  an	  integer	  number	  
+in	  HEX	  format	  within	  the	  range	  
+"00000000"	  and	  "FFFFFFFF"	  
+
+T	  
+
+Read	  number	  of	  ADC	  
+T0?	  
+samples	  used	  for	  averaging	  
+
+T0:zzzz=0000xxxx	  
+
+"xxxx"	  is	  an	  integer	  number	  in	  
+HEX	  format	  within	  the	  range	  
+"0000"	  and	  "FFFF"	  
+
+V	  
+
+Read	  calibration	  constant	  
+Qcal	  (in	  picocoulombs)	  or	  
+Ical	  (in	  microamperes)	  
+
+V0?	  
+
+V1:zzzz=0000xxxx	  
+and	  
+V0:zzzz=0000yyyy	  
+
+See	  previous	  table	  for	  a	  
+description	  of	  the	  data	  format.	  
+Note	  that	  the	  response	  frame	  
+"V0"	  contains	  the	  upper	  16bit	  
+and	  the	  response	  frame	  "V1"	  
+contains	  the	  lower	  16bit.	  
+
+W	  
+
+Read	  calibration	  constant	  
+Ucal	  (in	  volts)	  
+
+W0?	  
+
+W1:zzzz=0000xxxx	  
+and	  
+W0:zzzz=0000yyyy	  
+
+See	  previous	  table	  for	  a	  
+description	  of	  the	  data	  format.	  
+Note	  that	  the	  response	  frame	  
+"W0"	  contains	  the	  upper	  16bit	  
+and	  the	  response	  frame	  "W1"	  
+contains	  the	  lower	  16bit.	  
+
+"zzzz" is a counter ranging from 0000 to FFFF which is incremented each time the BCM-RF-E
+tries to send data. After the counter reached the value FFFF it will be reset to 0000.
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+Page 29
+
+BCM-RF-E I/O AND SWITCHES
+
+Processing  Mode  
+
+TRG  ADC  POLARITY  
+
+Left:  S&H  /  Right:  T-­C  
+
+Left:  Positive  /  Right:  Negative  
+
+Signal  View  
+BCM  IN  
+Output  View  
+BCM  OUT  
+TRG  ADC  OUT  
+
+Hold  View  
+
+Pin  C19  
+
+Green  LED  
+
+EXT  TRG  IN  
+
+T-­C:  always  ON  
+S&H:  flashes  on  trigger  
+
+  
+USB  
+Remote  control  
+Data  readout  
+
+Hold  Delay  
+Front  panel  trimmer  
+Active  when  Digital  Delay  Line  is  OFF  
+
+  
+  
+
+RJ11  
+
+Timing  
+
+Trigger  Mode  
+
+For  PIC  programming  
+
+Up:  T-­C  /  Down:  S&H  
+
+Up:  External  /  Down:  On-­board  
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+Page 30
+
+ARCHITECTURE
+Internal digital delay line by PIC
+Front-panel trimmer
+Hold delay control
+Front panel LED
+Trigger mode
+EXT.TRG.IN
+
+Internal clock enable
+Trigger
+
+τ
+
+Timing processing
+
+Hold View (front)
+Measurement mode
+Output View (front)
+
+BCM Input
+T&H
+
+S&H
+
+BCM Output (rear)
+
+T-C
+Signal View (front)
+
+PIC 18F2458 µC
+
+Output View
+
+RA0 (12 bits ADC)
+RA2 (12 bits ADC, neg ref)
+RA3 (12 bits ADC, pos ref)
+RB0 (digital I/O)
+RB1 (digital output)
+RB3 (digital I/O)
+RB4 (digital I/O)
+
+Internal digital delay line
+Control and data
+TRG.ADC.OUT
+
+RC0 (digital output)
+
+Trigger mode
+
+RC1 (digital output)
+
+Internal clock enable
+
+RC2 (digital output)
+
+Measurement mode
+
+RB5 (digital output)
+
+Hold delay control
+
+RB2 (interruption event input))
+RC4 (USB D-)
+RC5 (USB D+)
+
+PIC in-circuit
+debugging
+
+RJ11-R
+
+RB6 (digital I/O)
+RB7 (digital I/O)
+Master reset
+
+J208
+1
+3
+2
+4
+
+VCC
+D+
+D-­
+GND
+USBCONN
+
+X201
+
+CRYSTAL
+
+20 MHz crystal
+
+Chassis rear panel DB9
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 31
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+SPECIFICATIONS
+Typical performance measured with Turbo2 option:
+Charge measurements
+BCM-RF-E mode
+
+S&H
+
+Measurement range
+
+50 fC ... 300 pC (higher without front-end amplifier)
+
+Bunch repetition rate
+
+Single bunch up to 2 MHz
+
+Output voltage
+
+0 V … 5 V, logarithmically proportional to the beam charge
+
+Reaction time
+
+500 ns to > 99% final value
+
+Noise
+
+10 fC or 1% of charge (whichever is higher)
+
+Non-linearity
+
+~2%
+
+Time response
+
+Hold till next trigger or 100 ms maximum
+
+Trigger
+
+On-board or External
+
+Current measurements
+BCM-RF-E mode
+
+T-C
+
+Measurement range
+
+0.5 uA ... 3 mA (higher without front-end amplifier)
+
+Beam RF
+
+10 MHz ... 350 MHz
+
+Output voltage
+
+0 V … +5 V, logarithmically proportional to the beam current
+
+Risetime
+
+< 70 ns
+
+Reaction time
+
+100 ns
+
+Noise
+
+0.1 µA or 1% of current (whichever is higher)
+
+Non-linearity
+
+~2%
+
+Time response
+
+Reports current variations with 10 MHz bandwidth
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 32
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+Input signals, output signals and other interfaces
+BCM-RF-E Front Panel
+Signal View: BNC connector, waveform to be read by oscilloscope (50 Ω or 1 MΩ)
+Voltage range
+-0.1 V ... 1 V (50 Ω)
+-0.2 V ... 2 V (1 MΩ)
+Output View: BNC Connector, DC voltage stable for 100 ms or until next trigger
+Voltage range
+-1 V ... 5 V
+Negative voltages may be observed due to noise at very low signal levels.
+Readout electronics requirements:
+Input impedance ³ 500 kΩ
+Resolution
+£ 1 mV
+To allow for a short settling time in S&H mode, data acquisition shall start earliest
+500 ns after the BCM-RF-E has triggered.
+Hold View: BNC connector, waveform to be read by oscilloscope (50 Ω)
+Voltage range
+0 V ... 2 V
+USB: Type B connector, compatible to USB 2.0 standard
+Hold Delay: 10 turns potentiometer
+0 ns ... 200 ns adjustable hold delay range
+
+BCM-RFC Rear Panel
+Remote control: DB9 connector
+Pin 6: TTL output (2.5 V into high impedance)
+All other DB9 pins are not connected
+BCM Input: SMA connector, 50 Ω terminated, to be connected to Turbo-ICT-FEFA
+BCM Output: SMA connector, DC voltage stable for 100 ms or until next trigger
+Voltage range
+-1 V ... 5 V
+Negative voltages may be observed due to noise at very low signal levels.
+Readout electronics requirements:
+Input impedance ³ 500 kΩ
+Resolution
+£ 1 mV
+To allow for a short settling time in S&H mode, data acquisition shall start earliest
+500 ns after the BCM-RF-E has triggered.
+Trigger in: SMA connector, 50 Ω terminated, BCM-RF-E external trigger input
+Trigger signal requirements:
+Positive pulse starting at 0 V
+Amplitude
+2.5 V ... 5 V
+Length
+³100 ns
+Rise time
+£10 ns
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 33
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+BCM-RF-E
+Rear module connector
+
+DIN 41612-M / 24+8 male, with 1.0/2.4 coaxial inserts
+
+Power consumption
+
++15 V, 170 mA / -15 V, 110 mA (Turbo-ICT connected)
+
+Card size
+
+3U x 4F, i.e. Eurosize 100 x 160 mm, 20 mm wide
+
+Chassis size
+
+3U x 19"
+
+BCM-RFC power supply and fuses
+See Annex I: Delta Elektronika U-Series linear power supply data sheet.
+The mains voltage is factory set according to the front panel label.
+This label should be removed or replaced when the mains voltage selection is changed.
+Type
+
+5U 15-15 modular plug-in ±15 V linear power supply
+
+Manufacturer
+
+Delta Elektronika, 4300A Zierikzee, The Netherlands
+
+Output voltage
+
+±15 V, 200 mA
+
+Mains voltage
+
+jumper selectable, 110, 220 Vac, 50-60 Hz
+tested at 90 Vac, 50/60 Hz for 100 Vac Japanese mains voltage
+
+Mains voltage selector
+
+located under the power supply block
+
+Card size
+
+3U x 10F, i.e. Eurosize 100 x 160 mm, 50 mm wide
+
+Back-panel connector
+
+power supply mains is wired to an IEC connector via
+EMI/RFI filter and fuse
+
+Fuse type
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+Page 34
+
+Connectors and pin allocation
+
+BCM-­RF-­E  Front  panel  BNC  connectors  
+  
+RF-­Chassis  Rear  SMA  connectors  
+
+  
+
+  
+
+     
+
+     
+
+     
+     
+
+  
+  
+DB9  female  connector  on  BCM-­RFC  rear  panel  
+
+  
+
+     
+
+     
+     
+
+     
+     
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+DIN41612M  BCM-­RF-­E  module  rear  connector    
+
+  
+
+  
+
+  
+
+     
+
+     
+
+     
+     
+
+  
+INPUT  SIGNALS  
+
+  
+
+  
+
+     
+
+     
+
+BCM-­RF-­E  Input  
+
+BCM  Input  
+
+B8  *  
+
+     
+
+   SMA1        
+
+BCM-­RF-­E  output  
+
+BCM  Output    
+
+B11*  
+
+     
+
+   SMA2        
+
+ADC  Trigger  TTL  output  pos/neg  edge  
+
+TRG.ADC.OUT   C19  
+
+   DB9,6        
+
+     
+
+Input  signal  after  log.  demodulation  
+
+Signal  View  
+
+  
+
+     
+
+     
+
+   BNC  1  
+
+BCM-­RF-­E  Output  
+
+Output  View  
+
+  
+
+     
+
+     
+
+   BNC  2  
+
+Hold  clock  (on  rising  edge)  
+
+Hold  View  
+
+  
+
+     
+
+     
+
+   BNC  3  
+
+B22*  
+
+     
+
+   SMA3        
+
+  
+
+OUTPUT  SIGNALS  
+
+BNC  front-­panel  MONITORING    
+
+EXTERNAL  TRIGGER  INPUT  
+External  trigger  input  50  Ω,  pos.  edge  >  2  V   EXT.TRG.IN  
+POWER  SUPPLY  
++  (8...15)  V  
+
++15  V  
+
+A13  
+B13  
+C13  
+
+  
+
+-­  (8...15)  V  
+
+-­15  V  
+
+A15  
+B15  
+C15  
+
+  
+
+Common  
+
+COM  
+
+A14  
+B14  
+C14  
+
+  
+
+  
+*  coaxial  insert  1.0/2.3  type  
+
+  
+
+  
+
+  
+
+     
+
+     
+
+     
+
+  
+
+     
+
+     
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 35
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+RECOMMENDATIONS ABOUT CABLES AND INSTALLATION
+Turbo-ICT and BCM-RF system performance are measured and guaranteed when a Bergoz
+Instrumentation-supplied Interconnect cable BCM-C/xx or BCM-RHC/xx is used. It is doubleshielded radiation tolerant coaxial cable to reject RFI. It is fitted at each end by two CMC
+common-mode chokes for EMI rejection:
+MnZn ferrite core for high-frequency >500 MHz rejection;
+Iron-based nanocrystalline Finemet core with soft B-H loop for low frequency rejection.
+Unnecessary intermediate bulkheads should be avoided. When for practical reasons bulkheads
+must be used, e.g., on patch-panels, it is much preferrable that the bulkhead body is isolated from
+ground. On either side of the patch-panel a set of two CMC common-mode chokes must the
+installed on the cable.
+This is imperative to assure EMI rejection and system perpormance.
+SMA connectors at both ends of a Bergoz Instrumentation-supplied cable feature different
+dielectric types depending on cable reference:
+Standard BCM-C/xx cable is fitted with PTFE (Teflon) dielectric SMA at both ends. PTFE
+radiation tolerance R~2 (source H.Shoenbacher CERN Yellow Books).
+Radiation-tolerant BCM-RHC/xx cable is fitted with PEEK (Victrex) dielectric SMA at both ends.
+PEEK radiation tolerance R>7 (same source).
+BCM-RF system, i.e., chassis and modules should –as much as possible– be kept away from high
+power RF equipment, klystrons, cavities.
+If the user procures the Turbo-ICT interconnect cable from a source other than Bergoz
+Instrumentation, cable must be double shileded, connectors must be chosen carefully according to
+the cable specifications, connector dielectric should conform to the radiation environment,
+appropriate common-mode chokes must be installed at each end of every cable segment. A cable
+segment is any segment of cable between two connectors or bulkheads. Cable and connectors
+manufacturer’s instructions must be followed meticulously. If the cable assembly is subcontracted,
+subcontractors must be informed of the extreme reliability expected from these cables.
+Transmission and reflections of each cable must be controlled before installation with a network
+analyzer, over a frequency band up to twice the operating frequency.
+BCM-RF-E modules must be installed in a RF-shielded chassis, BCM-RFC/xx or equivalent.
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 36
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+ACCESSORIES
+BCM Chassis: ref. BCM-RFC/xx
+The BCM-RFC/xx chassis is built on a 19” Schroff rackable RF chassis.
+Bin dimensions: 3U x 84F
+Schroff reference: Europac Lab HF/RF #20845-283
+The BCM-RFC/xx can be wired with up to 16 BCM-E stations, xx being the number of wired
+stations (one BCM-RF-E module per station).
+BCM-RFC/xx ordered with less than 16 stations are partially wired to allow future field-upgrades.
+Unewired stations are masked with RF-shielded blank panels.
+BCM-RFC/xx outer dimensions
+
+Leave  Clearance  for  connectors  and  cables  
+Warning:  
+Leave  clearance  at  top  and  bottom  
+to  allow  free  air  flow  for  convection  cooling.  
+Allow  10W  max.  heat  dissipation  per  module    
+installed  in  chassis.  
+132.5  
+
+302.2  
+
+37.7  
+
+51.1  
+
+37.7  
+
+Card Extender: ref. BCM-XTD
+The card extender allows to access the BCM-RF-E on-board switches while the BCM-RF-E
+module is connected to the chassis.
+
+7.5  
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 37
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+SCHEMATICS & BOARD LAYOUT
+Schematics and board layouts remain the exclusive property of Bergoz Instrumentation at any
+time. They are protected by the copyright laws.
+Schematics and board layouts are not delivered with the instruments. They can however be
+obtained upon user’s request.
+A request should be sent by fax on the institute’s letterhead, worded in the following way:
+To: Bergoz Instrumentation
+From: User’s name
+Date: ................
+I am a user of instrument type xxx-xxx serial nr. xxx,xxx,xxx,xxx, etc.
+Please send me one copy of the corresponding schematics and board layout.
+I will use it for the instrument’s maintenance only.
+I will make copies only for my own use.
+I will inform others who need these schematics that they should request them from Bergoz
+Instrumentation.
+Signed: .......................
+ACKNOWLEDGEMENTS
+The fundamental principles of the BCM-RF-E module and of the Turbo-ICT were developed
+internally at Bergoz Instrumentation.
+The BCM-RF-E module was designed by Sebastien Artinian, based on functions developed on the
+earlier LR-BPM design of Alexander Kalinin.
+Saint Genis Pouilly, May 2017
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+ANNEX 1
+
+Page 38
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+BERGOZ Instrumentation
+01630 Saint-Genis-Pouilly, France
+Tel. +33 450 426 642
+www.bergoz.com
+
+Page 39
+
+Turbo-ICT & BCM-RF-E
+Version 2.4
+User Manual
+
+

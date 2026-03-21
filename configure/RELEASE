@@ -1,0 +1,25 @@
+# RELEASE - Location of external support modules
+#
+# IF YOU CHANGE ANY PATHS in this file or make API changes to
+# any modules it refers to, you should do a "make rebuild" in
+# this application's top level directory.
+#
+# The EPICS build process does not check dependencies against
+# any files from outside the application, so it is safest to
+# rebuild it completely if any modules it depends on change.
+
+# Variables and paths to dependent modules:
+SUPPORT=/epics/support
+ASYN=$(SUPPORT)/asyn
+STREAMDEVICE=$(SUPPORT)/StreamDevice
+CALC=$(SUPPORT)/calc
+AUTOSAVE=$(SUPPORT)/autosave
+
+# EPICS_BASE should appear last so earlier modules can override stuff:
+EPICS_BASE=/epics/epics-base/
+
+# These lines allow developers to override these RELEASE settings
+# without having to modify this file directly.
+-include $(TOP)/../RELEASE.local
+-include $(TOP)/../RELEASE.$(EPICS_HOST_ARCH).local
+-include $(TOP)/configure/RELEASE.local
