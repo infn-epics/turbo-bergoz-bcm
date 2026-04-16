@@ -49,8 +49,8 @@ epicsEnvSet("STREAM_PROTOCOL_PATH", "$(TOP)/db")
 # BCM-RF-E main database
 # P    = PV prefix
 # PORT = asyn port name
-# SCAN = measurement scan period (optional, default "1 second")
-dbLoadRecords("db/bcm-rf.db", "P=BCM:RF:01,PORT=BCM1,SCAN=1 second")
+# SCAN = measurement scan period
+dbLoadRecords("db/bcm-rf.db", "P=SPARC:DIAG:TURBOBCM,PORT=BCM1,SCAN=.2 second")
 
 # =====================================================================
 # IOC Initialization

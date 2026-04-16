@@ -21,8 +21,9 @@ bcm_rf_ioc_registerRecordDeviceDriver pdbbase
 
 # --- Option 1: ser2net on plsparcenea001.lnf.infn.it (TCP/IP) ---
 # /dev/ttyACM0 -> ser2net port 4001 (raw TCP, 9600 8N1)
+# Keep noProcessEos=1 so StreamDevice can handle the LF+NUL frame terminator.
 # drvAsynIPPortConfigure("PORT_NAME", "HOST:PORT", priority, noAutoConnect, noProcessEos)
-drvAsynIPPortConfigure("BCM1", "192.168.197.24:4001", 0, 0, 0)
+drvAsynIPPortConfigure("BCM1", "192.168.197.24:4001", 0, 0, 1)
 
 # --- Debugging (uncomment to enable) ---
 #asynSetTraceMask("BCM1", 0, 0x9)    # ERROR + DRIVER
@@ -44,8 +45,8 @@ epicsEnvSet("STREAM_PROTOCOL_PATH", "$(TOP)/db")
 # BCM-RF-E main database
 # P    = PV prefix
 # PORT = asyn port name
-# SCAN = measurement scan period (optional, default "1 second")
-dbLoadRecords("db/bcm-rf.db", "P=BCM:RF:01,PORT=BCM1")
+# SCAN = measurement scan period
+dbLoadRecords("db/bcm-rf.db", "P=SPARC:DIAG:TURBOBCM,PORT=BCM1,SCAN=.2 second")
 
 # =====================================================================
 # IOC Initialization

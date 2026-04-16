@@ -2,15 +2,10 @@
 <display version="2.0.0">
   <name>Bergoz BCM-RF-E</name>
   <macros>
-    <P>BCM:RF:01</P>
+    <P>SPARC:DIAG:TURBOBCM</P>
   </macros>
   <width>720</width>
   <height>1110</height>
-  <background_color>
-    <color name="Background" red="240" green="240" blue="240" />
-  </background_color>
-
-  <!-- Title -->
   <widget type="label" version="2.0.0">
     <name>Title</name>
     <text>Bergoz BCM-RF-E  —  Beam Charge Monitor</text>
@@ -19,15 +14,11 @@
     <width>700</width>
     <height>30</height>
     <font>
-      <font name="Header 1" family="Liberation Sans" style="BOLD" size="18" />
+      <font name="Header 1" family="Liberation Sans" style="BOLD" size="22.0">
+      </font>
     </font>
-    <foreground_color>
-      <color name="Text" red="0" green="0" blue="0" />
-    </foreground_color>
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
-
-  <!-- Connection Status -->
   <widget type="led" version="2.0.0">
     <name>ConnLED</name>
     <pv_name>$(P):CONNECTED</pv_name>
@@ -36,16 +27,13 @@
     <width>24</width>
     <height>24</height>
   </widget>
-
-  <!-- ========== MEASUREMENT ========== -->
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>Measurement</name>
     <x>10</x>
     <y>45</y>
     <width>700</width>
     <height>170</height>
     <style>1</style>
-
     <widget type="label" version="2.0.0">
       <name>MeasTitle</name>
       <text>Measurement</text>
@@ -54,10 +42,10 @@
       <width>200</width>
       <height>22</height>
       <font>
-        <font name="Header 2" family="Liberation Sans" style="BOLD" size="14" />
+        <font name="Header 2" family="Liberation Sans" style="BOLD" size="18.0">
+        </font>
       </font>
     </widget>
-
     <widget type="label" version="2.0.0">
       <text>Output Voltage:</text>
       <x>10</x>
@@ -80,7 +68,6 @@
       <width>30</width>
       <height>25</height>
     </widget>
-
     <widget type="label" version="2.0.0">
       <text>Bunch Charge (S&amp;H):</text>
       <x>10</x>
@@ -103,7 +90,6 @@
       <width>30</width>
       <height>25</height>
     </widget>
-
     <widget type="label" version="2.0.0">
       <text>Avg Current (T-C):</text>
       <x>10</x>
@@ -126,7 +112,6 @@
       <width>30</width>
       <height>25</height>
     </widget>
-
     <widget type="label" version="2.0.0">
       <text>Raw ADC Value:</text>
       <x>10</x>
@@ -141,7 +126,6 @@
       <width>180</width>
       <height>25</height>
     </widget>
-
     <widget type="label" version="2.0.0">
       <text>Serial Number:</text>
       <x>400</x>
@@ -156,7 +140,6 @@
       <width>160</width>
       <height>25</height>
     </widget>
-
     <widget type="label" version="2.0.0">
       <text>Operating Mode:</text>
       <x>400</x>
@@ -171,7 +154,6 @@
       <width>160</width>
       <height>25</height>
     </widget>
-
     <widget type="label" version="2.0.0">
       <text>Temp-Corrected V:</text>
       <x>400</x>
@@ -195,53 +177,66 @@
       <height>25</height>
     </widget>
   </widget>
-
-  <!-- ========== LIVE SIGNAL PLOT ========== -->
-  <widget type="stripchart" version="2.0.0">
+  <widget type="stripchart" version="2.1.0">
     <name>VoltageChart</name>
     <x>10</x>
     <y>225</y>
     <width>700</width>
     <height>240</height>
-    <show_toolbar>true</show_toolbar>
     <title>Output Voltage (live)</title>
     <y_axes>
       <y_axis>
         <title>Voltage (V)</title>
         <autoscale>true</autoscale>
+        <log_scale>false</log_scale>
+        <minimum>0.0</minimum>
+        <maximum>100.0</maximum>
+        <show_grid>false</show_grid>
+        <visible>true</visible>
+        <color>
+          <color name="Text" red="0" green="0" blue="0">
+          </color>
+        </color>
       </y_axis>
     </y_axes>
     <traces>
       <trace>
         <name>Voltage</name>
         <y_pv>$(P):VOLTAGE_RB</y_pv>
+        <axis>0</axis>
         <trace_type>1</trace_type>
         <color>
-          <color red="0" green="0" blue="255" />
+          <color red="0" green="0" blue="255">
+          </color>
         </color>
         <line_width>2</line_width>
+        <point_type>0</point_type>
+        <point_size>10</point_size>
+        <visible>true</visible>
       </trace>
       <trace>
         <name>Temp-Corrected</name>
         <y_pv>$(P):VOLTAGE_CORR_RB</y_pv>
+        <axis>0</axis>
         <trace_type>1</trace_type>
         <color>
-          <color red="255" green="128" blue="0" />
+          <color red="255" green="128" blue="0">
+          </color>
         </color>
         <line_width>2</line_width>
+        <point_type>0</point_type>
+        <point_size>10</point_size>
+        <visible>true</visible>
       </trace>
     </traces>
   </widget>
-
-  <!-- ========== MODE CONFIGURATION ========== -->
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>ModeConfig</name>
     <x>10</x>
     <y>475</y>
     <width>700</width>
     <height>145</height>
     <style>1</style>
-
     <widget type="label" version="2.0.0">
       <text>Mode Configuration</text>
       <x>5</x>
@@ -249,46 +244,42 @@
       <width>200</width>
       <height>22</height>
       <font>
-        <font name="Header 2" family="Liberation Sans" style="BOLD" size="14" />
+        <font name="Header 2" family="Liberation Sans" style="BOLD" size="18.0">
+        </font>
       </font>
     </widget>
-
-    <!-- Quick mode buttons -->
-    <widget type="action_button" version="2.0.0">
-      <text>Sample &amp; Hold</text>
-      <pv_name>$(P):MODE_SH_CMD</pv_name>
-      <x>10</x>
-      <y>30</y>
-      <width>140</width>
-      <height>30</height>
+    <widget type="action_button" version="3.0.0">
       <actions>
         <action type="write_pv">
+          <description>Write PV</description>
           <pv_name>$(P):MODE_SH_CMD</pv_name>
           <value>1</value>
         </action>
       </actions>
-    </widget>
-    <widget type="action_button" version="2.0.0">
-      <text>Track-Continuous</text>
-      <pv_name>$(P):MODE_TC_CMD</pv_name>
-      <x>160</x>
+      <pv_name>$(P):MODE_SH_CMD</pv_name>
+      <text>Sample &amp; Hold</text>
+      <x>10</x>
       <y>30</y>
       <width>140</width>
-      <height>30</height>
+    </widget>
+    <widget type="action_button" version="3.0.0">
       <actions>
         <action type="write_pv">
+          <description>Write PV</description>
           <pv_name>$(P):MODE_TC_CMD</pv_name>
           <value>1</value>
         </action>
       </actions>
+      <pv_name>$(P):MODE_TC_CMD</pv_name>
+      <text>Track-Continuous</text>
+      <x>160</x>
+      <y>30</y>
+      <width>140</width>
     </widget>
-
-    <!-- Individual settings -->
     <widget type="label" version="2.0.0">
       <text>Meas Mode:</text>
       <x>10</x>
       <y>70</y>
-      <width>100</width>
       <height>25</height>
     </widget>
     <widget type="combo" version="2.0.0">
@@ -305,12 +296,10 @@
       <width>120</width>
       <height>25</height>
     </widget>
-
     <widget type="label" version="2.0.0">
       <text>Trigger:</text>
       <x>10</x>
       <y>100</y>
-      <width>100</width>
       <height>25</height>
     </widget>
     <widget type="combo" version="2.0.0">
@@ -327,7 +316,6 @@
       <width>120</width>
       <height>25</height>
     </widget>
-
     <widget type="label" version="2.0.0">
       <text>Int Clock:</text>
       <x>410</x>
@@ -339,7 +327,6 @@
       <pv_name>$(P):INT_CLK_SP</pv_name>
       <x>495</x>
       <y>70</y>
-      <width>100</width>
       <height>25</height>
     </widget>
     <widget type="textupdate" version="2.0.0">
@@ -349,7 +336,6 @@
       <width>80</width>
       <height>25</height>
     </widget>
-
     <widget type="label" version="2.0.0">
       <text>Delay Ctrl:</text>
       <x>410</x>
@@ -361,7 +347,6 @@
       <pv_name>$(P):DELAY_CTRL_SP</pv_name>
       <x>495</x>
       <y>100</y>
-      <width>100</width>
       <height>25</height>
     </widget>
     <widget type="textupdate" version="2.0.0">
@@ -372,16 +357,13 @@
       <height>25</height>
     </widget>
   </widget>
-
-  <!-- ========== HOLD DELAY & TIMING ========== -->
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>HoldDelay</name>
     <x>10</x>
     <y>630</y>
     <width>700</width>
     <height>100</height>
     <style>1</style>
-
     <widget type="label" version="2.0.0">
       <text>Hold Delay &amp; Sampling</text>
       <x>5</x>
@@ -389,10 +371,10 @@
       <width>250</width>
       <height>22</height>
       <font>
-        <font name="Header 2" family="Liberation Sans" style="BOLD" size="14" />
+        <font name="Header 2" family="Liberation Sans" style="BOLD" size="18.0">
+        </font>
       </font>
     </widget>
-
     <widget type="label" version="2.0.0">
       <text>Hold Delay (ns):</text>
       <x>10</x>
@@ -406,10 +388,9 @@
       <y>30</y>
       <width>300</width>
       <height>25</height>
-      <minimum>0</minimum>
-      <maximum>255</maximum>
+      <maximum>255.0</maximum>
     </widget>
-    <widget type="textentry" version="2.0.0">
+    <widget type="textentry" version="3.0.0">
       <pv_name>$(P):HOLD_DELAY_SP</pv_name>
       <x>440</x>
       <y>30</y>
@@ -430,7 +411,6 @@
       <width>30</width>
       <height>25</height>
     </widget>
-
     <widget type="label" version="2.0.0">
       <text>ADC Samples:</text>
       <x>10</x>
@@ -438,7 +418,7 @@
       <width>120</width>
       <height>25</height>
     </widget>
-    <widget type="textentry" version="2.0.0">
+    <widget type="textentry" version="3.0.0">
       <pv_name>$(P):ADC_SAMPLES_SP</pv_name>
       <x>135</x>
       <y>60</y>
@@ -449,20 +429,16 @@
       <pv_name>$(P):ADC_SAMPLES_RB</pv_name>
       <x>260</x>
       <y>60</y>
-      <width>100</width>
       <height>25</height>
     </widget>
   </widget>
-
-  <!-- ========== SPECIAL MODES ========== -->
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>SpecialModes</name>
     <x>10</x>
     <y>740</y>
     <width>700</width>
     <height>100</height>
     <style>1</style>
-
     <widget type="label" version="2.0.0">
       <text>Special Modes</text>
       <x>5</x>
@@ -470,22 +446,20 @@
       <width>200</width>
       <height>22</height>
       <font>
-        <font name="Header 2" family="Liberation Sans" style="BOLD" size="14" />
+        <font name="Header 2" family="Liberation Sans" style="BOLD" size="18.0">
+        </font>
       </font>
     </widget>
-
     <widget type="label" version="2.0.0">
       <text>CAL-FO Mode:</text>
       <x>10</x>
       <y>30</y>
-      <width>100</width>
       <height>25</height>
     </widget>
     <widget type="combo" version="2.0.0">
       <pv_name>$(P):CALFO_SP</pv_name>
       <x>115</x>
       <y>30</y>
-      <width>100</width>
       <height>25</height>
     </widget>
     <widget type="textupdate" version="2.0.0">
@@ -495,19 +469,16 @@
       <width>80</width>
       <height>25</height>
     </widget>
-
     <widget type="label" version="2.0.0">
       <text>Reverse Function:</text>
       <x>10</x>
       <y>60</y>
-      <width>100</width>
       <height>25</height>
     </widget>
     <widget type="combo" version="2.0.0">
       <pv_name>$(P):REV_FUNC_SP</pv_name>
       <x>115</x>
       <y>60</y>
-      <width>100</width>
       <height>25</height>
     </widget>
     <widget type="textupdate" version="2.0.0">
@@ -517,35 +488,33 @@
       <width>80</width>
       <height>25</height>
     </widget>
-
-    <widget type="action_button" version="2.0.0">
-      <text>Save to EEPROM</text>
-      <pv_name>$(P):SAVE_CFG_CMD</pv_name>
-      <x>530</x>
-      <y>30</y>
-      <width>150</width>
-      <height>55</height>
+    <widget type="action_button" version="3.0.0">
       <actions>
         <action type="write_pv">
+          <description>Write PV</description>
           <pv_name>$(P):SAVE_CFG_CMD</pv_name>
           <value>1</value>
         </action>
       </actions>
+      <pv_name>$(P):SAVE_CFG_CMD</pv_name>
+      <text>Save to EEPROM</text>
+      <x>530</x>
+      <y>30</y>
+      <width>150</width>
+      <height>55</height>
       <foreground_color>
-        <color red="255" green="0" blue="0" />
+        <color red="255" green="0" blue="0">
+        </color>
       </foreground_color>
     </widget>
   </widget>
-
-  <!-- ========== CALIBRATION CONSTANTS ========== -->
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>Calibration</name>
     <x>10</x>
     <y>850</y>
     <width>700</width>
     <height>130</height>
     <style>1</style>
-
     <widget type="label" version="2.0.0">
       <text>Calibration Constants (from Calibration Report)</text>
       <x>5</x>
@@ -553,10 +522,10 @@
       <width>400</width>
       <height>22</height>
       <font>
-        <font name="Header 2" family="Liberation Sans" style="BOLD" size="14" />
+        <font name="Header 2" family="Liberation Sans" style="BOLD" size="18.0">
+        </font>
       </font>
     </widget>
-
     <widget type="label" version="2.0.0">
       <text>Ucal (V):</text>
       <x>10</x>
@@ -564,14 +533,13 @@
       <width>80</width>
       <height>25</height>
     </widget>
-    <widget type="textentry" version="2.0.0">
+    <widget type="textentry" version="3.0.0">
       <pv_name>$(P):UCAL_SP</pv_name>
       <x>95</x>
       <y>30</y>
       <width>130</width>
       <height>25</height>
     </widget>
-
     <widget type="label" version="2.0.0">
       <text>Qcal (pC):</text>
       <x>240</x>
@@ -579,14 +547,13 @@
       <width>80</width>
       <height>25</height>
     </widget>
-    <widget type="textentry" version="2.0.0">
+    <widget type="textentry" version="3.0.0">
       <pv_name>$(P):QCAL_SP</pv_name>
       <x>325</x>
       <y>30</y>
       <width>130</width>
       <height>25</height>
     </widget>
-
     <widget type="label" version="2.0.0">
       <text>Ical (uA):</text>
       <x>470</x>
@@ -594,15 +561,13 @@
       <width>80</width>
       <height>25</height>
     </widget>
-    <widget type="textentry" version="2.0.0">
+    <widget type="textentry" version="3.0.0">
       <pv_name>$(P):ICAL_SP</pv_name>
       <x>555</x>
       <y>30</y>
       <width>130</width>
       <height>25</height>
     </widget>
-
-    <!-- Temperature correction -->
     <widget type="label" version="2.0.0">
       <text>Temp Coeff BCM:</text>
       <x>10</x>
@@ -610,14 +575,12 @@
       <width>120</width>
       <height>25</height>
     </widget>
-    <widget type="textentry" version="2.0.0">
+    <widget type="textentry" version="3.0.0">
       <pv_name>$(P):TEMP_COEFF_BCM_SP</pv_name>
       <x>135</x>
       <y>65</y>
-      <width>100</width>
       <height>25</height>
     </widget>
-
     <widget type="label" version="2.0.0">
       <text>Temp Coeff Turbo:</text>
       <x>250</x>
@@ -625,14 +588,12 @@
       <width>120</width>
       <height>25</height>
     </widget>
-    <widget type="textentry" version="2.0.0">
+    <widget type="textentry" version="3.0.0">
       <pv_name>$(P):TEMP_COEFF_TURBO_SP</pv_name>
       <x>375</x>
       <y>65</y>
-      <width>100</width>
       <height>25</height>
     </widget>
-
     <widget type="label" version="2.0.0">
       <text>T_ref (°C):</text>
       <x>490</x>
@@ -640,14 +601,13 @@
       <width>80</width>
       <height>25</height>
     </widget>
-    <widget type="textentry" version="2.0.0">
+    <widget type="textentry" version="3.0.0">
       <pv_name>$(P):TEMP_REF_SP</pv_name>
       <x>575</x>
       <y>65</y>
       <width>80</width>
       <height>25</height>
     </widget>
-
     <widget type="label" version="2.0.0">
       <text>T_cabinet (°C):</text>
       <x>10</x>
@@ -655,14 +615,12 @@
       <width>120</width>
       <height>25</height>
     </widget>
-    <widget type="textentry" version="2.0.0">
+    <widget type="textentry" version="3.0.0">
       <pv_name>$(P):TEMP_CABINET</pv_name>
       <x>135</x>
       <y>95</y>
-      <width>100</width>
       <height>25</height>
     </widget>
-
     <widget type="label" version="2.0.0">
       <text>T_Turbo-ICT (°C):</text>
       <x>250</x>
@@ -670,29 +628,26 @@
       <width>120</width>
       <height>25</height>
     </widget>
-    <widget type="textentry" version="2.0.0">
+    <widget type="textentry" version="3.0.0">
       <pv_name>$(P):TEMP_TURBOICT</pv_name>
       <x>375</x>
       <y>95</y>
-      <width>100</width>
       <height>25</height>
     </widget>
   </widget>
-
-  <!-- ========== FOOTER ========== -->
   <widget type="label" version="2.0.0">
-    <text>Bergoz Instrumentation - Turbo-ICT &amp; BCM-RF-E Rev. 204.4, FW >= 2.5</text>
+    <text>Bergoz Instrumentation - Turbo-ICT &amp; BCM-RF-E Rev. 204.4, FW &gt;= 2.5</text>
     <x>10</x>
     <y>1085</y>
     <width>700</width>
-    <height>20</height>
     <font>
-      <font name="Fine Print" family="Liberation Sans" style="ITALIC" size="10" />
+      <font name="Fine Print" family="Liberation Sans" style="REGULAR" size="12.0">
+      </font>
     </font>
     <foreground_color>
-      <color red="128" green="128" blue="128" />
+      <color red="128" green="128" blue="128">
+      </color>
     </foreground_color>
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
-
 </display>

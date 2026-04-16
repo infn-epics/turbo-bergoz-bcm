@@ -15,18 +15,26 @@
 # MEASUREMENT READBACK
 # =====================================================================
 
-# Raw ADC measurement value (auto-sent by device)
-# Value in microvolts when reverse function is OFF.
-# Value in femtocoulombs (S&H) or nanoamperes (T-C) when reverse is ON.
-record(longin, "$(P):MEAS_RAW_RB") {
-    field(DESC, "Raw measurement value")
+# Raw ADC measurement value from the device stream.
+# The hardware uses 0x7FFFFFFF as an over-range / invalid sentinel.
+record(longin, "$(P):MEAS_RAW_HEX") {
+    field(DESC, "Raw measurement from device")
     field(DTYP, "stream")
     field(INP,  "@bcm-rf.proto readMeasurement $(PORT)")
-    field(SCAN, "I/O Intr")
+    field(SCAN, "$(SCAN=1 second)")
+    field(PINI, "YES")
+    field(FLNK, "$(P):MEAS_RAW_RB")
+}
+
+record(calc, "$(P):MEAS_RAW_RB") {
+    field(DESC, "Filtered raw measurement value")
+    field(INPA, "$(P):MEAS_RAW_HEX CP")
+    field(CALC, "A>=2147483647?0:A")
+    field(PREC, "0")
     field(FLNK, "$(P):VOLTAGE_RB")
 }
 
-# Output voltage in Volts (converted from raw microvolts)
+# Output voltage in Volts (valid when reverse function is OFF)
 record(calc, "$(P):VOLTAGE_RB") {
     field(DESC, "Output voltage")
     field(INPA, "$(P):MEAS_RAW_RB")
@@ -42,15 +50,13 @@ record(calc, "$(P):VOLTAGE_RB") {
     field(FLNK, "$(P):CHARGE_RB")
 }
 
-# Calculated bunch charge (S&H mode)
-# Qin = Qcal * 10^(Vout / Ucal) [pC]
-# Uses calibration constants entered by operator.
+# Hardware already applies the calibration constants and returns the
+# measurement directly in fC (S&H) or nA (T-C) when reverse function is ON.
+# Keep the IOC-side readback as a simple scale factor only.
 record(calc, "$(P):CHARGE_RB") {
-    field(DESC, "Bunch charge (S&H mode)")
-    field(INPA, "$(P):VOLTAGE_RB")
-    field(INPB, "$(P):UCAL_SP")
-    field(INPC, "$(P):QCAL_SP")
-    field(CALC, "(B=0||C=0)?0:C*10^(A/B)")
+    field(DESC, "Bunch charge from HW")
+    field(INPA, "$(P):MEAS_RAW_RB")
+    field(CALC, "A/1000")
     field(EGU,  "pC")
     field(PREC, "4")
     field(HOPR, "300")
@@ -58,15 +64,10 @@ record(calc, "$(P):CHARGE_RB") {
     field(FLNK, "$(P):CURRENT_RB")
 }
 
-# Calculated average current (T-C mode)
-# Iin = Ical * 10^(Vout / Ucal) [uA]
-# Uses calibration constants entered by operator.
 record(calc, "$(P):CURRENT_RB") {
-    field(DESC, "Average current (T-C mode)")
-    field(INPA, "$(P):VOLTAGE_RB")
-    field(INPB, "$(P):UCAL_SP")
-    field(INPC, "$(P):ICAL_SP")
-    field(CALC, "(B=0||C=0)?0:C*10^(A/B)")
+    field(DESC, "Average current from HW")
+    field(INPA, "$(P):MEAS_RAW_RB")
+    field(CALC, "A/1000")
     field(EGU,  "uA")
     field(PREC, "4")
     field(HOPR, "3000")
@@ -78,20 +79,22 @@ record(longin, "$(P):TRIGGER_RB") {
     field(DESC, "Trigger notification")
     field(DTYP, "stream")
     field(INP,  "@bcm-rf.proto readTrigger $(PORT)")
-    field(SCAN, "I/O Intr")
+    field(SCAN, "$(SCAN=1 second)")
+    field(PINI, "YES")
 }
 
 
 # =====================================================================
-# CALIBRATION CONSTANTS (operator-entered, for local calculation)
-# These are the factory-measured values from the Calibration Report.
+# CALIBRATION CONSTANTS
+# Operator setpoints are forwarded to the hardware calibration registers.
+# They are no longer used for IOC-side charge/current math.
 # =====================================================================
 
 record(ao, "$(P):UCAL_SP") {
     field(DESC, "Calibration constant Ucal")
     field(EGU,  "V")
     field(PREC, "6")
-    field(VAL,  "1.0")
+    field(VAL,  "0.860590")
     field(PINI, "YES")
     info(autosaveFields, "VAL")
 }
@@ -100,7 +103,7 @@ record(ao, "$(P):QCAL_SP") {
     field(DESC, "Calibration constant Qcal")
     field(EGU,  "pC")
     field(PREC, "6")
-    field(VAL,  "1.0")
+    field(VAL,  "0.105800")
     field(PINI, "YES")
     info(autosaveFields, "VAL")
 }
@@ -112,6 +115,85 @@ record(ao, "$(P):ICAL_SP") {
     field(VAL,  "1.0")
     field(PINI, "YES")
     info(autosaveFields, "VAL")
+}
+
+record(calc, "$(P):UCAL_EXP") {
+    field(DESC, "Ucal exponent helper")
+    field(INPA, "$(P):UCAL_SP CP")
+    field(CALC, "A<=0?-127:FLOOR(LOG(A)/LOG(2))")
+    field(PINI, "YES")
+    field(FLNK, "$(P):UCAL_BITS")
+}
+
+record(calc, "$(P):UCAL_BITS") {
+    field(DESC, "Ucal IEEE754 helper")
+    field(INPA, "$(P):UCAL_SP")
+    field(INPB, "$(P):UCAL_EXP")
+    field(CALC, "A<=0?0:(B+127)*8388608+NINT((A/2^B-1)*8388608)")
+    field(FLNK, "$(P):UCAL_HI_PUSH")
+}
+
+record(calcout, "$(P):UCAL_HI_PUSH") {
+    field(DESC, "Push Ucal upper word")
+    field(INPA, "$(P):UCAL_BITS")
+    field(CALC, "FLOOR(A/65536)")
+    field(OUT,  "$(P):CAL_U_HI_SP PP")
+    field(OOPT, "Every Time")
+    field(DOPT, "Use CALC")
+    field(FLNK, "$(P):UCAL_LO_PUSH")
+}
+
+record(calcout, "$(P):UCAL_LO_PUSH") {
+    field(DESC, "Push Ucal lower word")
+    field(INPA, "$(P):UCAL_BITS")
+    field(CALC, "A-65536*FLOOR(A/65536)")
+    field(OUT,  "$(P):CAL_U_LO_SP PP")
+    field(OOPT, "Every Time")
+    field(DOPT, "Use CALC")
+}
+
+record(calc, "$(P):CALQI_ACTIVE_SP") {
+    field(DESC, "Active Qcal/Ical value")
+    field(INPA, "$(P):MEAS_MODE_SP CP")
+    field(INPB, "$(P):QCAL_SP CP")
+    field(INPC, "$(P):ICAL_SP CP")
+    field(CALC, "A?B:C")
+    field(PINI, "YES")
+    field(FLNK, "$(P):CALQI_EXP")
+}
+
+record(calc, "$(P):CALQI_EXP") {
+    field(DESC, "Q/I exponent helper")
+    field(INPA, "$(P):CALQI_ACTIVE_SP CP")
+    field(CALC, "A<=0?-127:FLOOR(LOG(A)/LOG(2))")
+    field(FLNK, "$(P):CALQI_BITS")
+}
+
+record(calc, "$(P):CALQI_BITS") {
+    field(DESC, "Q/I IEEE754 helper")
+    field(INPA, "$(P):CALQI_ACTIVE_SP")
+    field(INPB, "$(P):CALQI_EXP")
+    field(CALC, "A<=0?0:(B+127)*8388608+NINT((A/2^B-1)*8388608)")
+    field(FLNK, "$(P):CALQI_HI_PUSH")
+}
+
+record(calcout, "$(P):CALQI_HI_PUSH") {
+    field(DESC, "Push Q/I upper word")
+    field(INPA, "$(P):CALQI_BITS")
+    field(CALC, "FLOOR(A/65536)")
+    field(OUT,  "$(P):CAL_QI_HI_SP PP")
+    field(OOPT, "Every Time")
+    field(DOPT, "Use CALC")
+    field(FLNK, "$(P):CALQI_LO_PUSH")
+}
+
+record(calcout, "$(P):CALQI_LO_PUSH") {
+    field(DESC, "Push Q/I lower word")
+    field(INPA, "$(P):CALQI_BITS")
+    field(CALC, "A-65536*FLOOR(A/65536)")
+    field(OUT,  "$(P):CAL_QI_LO_SP PP")
+    field(OOPT, "Every Time")
+    field(DOPT, "Use CALC")
 }
 
 
@@ -141,7 +223,7 @@ record(bo, "$(P):TRIG_MODE_SP") {
     field(DESC, "Trigger mode")
     field(ZNAM, "External")
     field(ONAM, "On-board")
-    field(VAL,  "1")
+    field(VAL,  "0")
     field(PINI, "YES")
     field(FLNK, "$(P):SWITCH_CALC")
     info(autosaveFields, "VAL")
@@ -395,6 +477,8 @@ record(bo, "$(P):REV_FUNC_SP") {
     field(OUT,  "@bcm-rf.proto setReverseFunc $(PORT)")
     field(ZNAM, "Off")
     field(ONAM, "On")
+    field(VAL,  "1")
+    field(PINI, "YES")
     field(FLNK, "$(P):REV_FUNC_RB")
     info(autosaveFields, "VAL")
 }

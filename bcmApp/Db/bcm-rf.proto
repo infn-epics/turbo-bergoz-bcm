@@ -42,10 +42,18 @@ OutTerminator = "\n\x00";
 
 readMeasurement {
     in "A%*c:%*4c=%08x";
+    @mismatch {
+        in "!%*c:%*4c=%*08x";
+        in "A%*c:%*4c=%08x";
+    }
 }
 
 readTrigger {
     in "!%*c:%*4c=%08x";
+    @mismatch {
+        in "A%*c:%*4c=%*08x";
+        in "!%*c:%*4c=%08x";
+    }
 }
 
 
