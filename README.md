@@ -22,10 +22,10 @@ The BCM-RF-E communicates via USB CDC serial. The IOC supports two connection me
 
 ### 1. Ethernet-to-serial converter (TCP/IP) — recommended
 
-Use `st.cmd` and edit the IP address and port:
+Use `st.cmd` and edit the IP address and port. Keep the last argument set to 1 so StreamDevice can handle the LF + NULL terminator correctly:
 
 ```bash
-drvAsynIPPortConfigure("BCM1", "192.168.1.100:4001", 0, 0, 0)
+drvAsynIPPortConfigure("BCM1", "192.168.1.100:4001", 0, 0, 1)
 ```
 
 Configure the converter for: **9600 baud, 8 data bits, 1 stop bit, no parity**.

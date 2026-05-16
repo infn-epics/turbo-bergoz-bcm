@@ -54,7 +54,6 @@
     /epics/epics-base//dbd/asSub.dbd \
     /epics/epics-base//dbd/dbCore.dbd \
     /epics/epics-base//dbd/rsrv.dbd \
-    /epics/support/StreamDevice/dbd/stream.dbd \
     /epics/support/asyn/dbd/asyn.dbd \
     /epics/support/asyn/dbd/asynRecord.dbd \
     /epics/support/asyn/dbd/devEpics.dbd \
@@ -77,7 +76,8 @@
     /epics/support/calc/dbd/transformRecord.dbd \
     /epics/support/calc/dbd/sCalcoutRecord.dbd \
     /epics/support/calc/dbd/aCalcoutRecord.dbd \
-    /epics/support/calc/dbd/sseqRecord.dbd
+    /epics/support/calc/dbd/sseqRecord.dbd \
+    ../bcmAsynMon.dbd
 
 /epics/epics-base//dbd/base.dbd:
 /epics/epics-base//dbd/menuGlobal.dbd:
@@ -135,7 +135,6 @@
 /epics/epics-base//dbd/asSub.dbd:
 /epics/epics-base//dbd/dbCore.dbd:
 /epics/epics-base//dbd/rsrv.dbd:
-/epics/support/StreamDevice/dbd/stream.dbd:
 /epics/support/asyn/dbd/asyn.dbd:
 /epics/support/asyn/dbd/asynRecord.dbd:
 /epics/support/asyn/dbd/devEpics.dbd:
@@ -159,4 +158,5 @@
 /epics/support/calc/dbd/sCalcoutRecord.dbd:
 /epics/support/calc/dbd/aCalcoutRecord.dbd:
 /epics/support/calc/dbd/sseqRecord.dbd:
+../bcmAsynMon.dbd:
 ../O.Common/bcm-rf-ioc.dbd: ../Makefile

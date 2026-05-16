@@ -19,10 +19,9 @@
 # The hardware uses 0x7FFFFFFF as an over-range / invalid sentinel.
 record(longin, "$(P):MEAS_RAW_HEX") {
     field(DESC, "Raw measurement from device")
-    field(DTYP, "stream")
-    field(INP,  "@bcm-rf.proto readMeasurement $(PORT)")
-    field(SCAN, "$(SCAN=1 second)")
-    field(PINI, "YES")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),0,1)MEAS_RAW_HEX")
+    field(SCAN, "I/O Intr")
     field(FLNK, "$(P):MEAS_RAW_RB")
 }
 
@@ -77,10 +76,9 @@ record(calc, "$(P):CURRENT_RB") {
 # Trigger notification (S&H mode only)
 record(longin, "$(P):TRIGGER_RB") {
     field(DESC, "Trigger notification")
-    field(DTYP, "stream")
-    field(INP,  "@bcm-rf.proto readTrigger $(PORT)")
-    field(SCAN, "$(SCAN=1 second)")
-    field(PINI, "YES")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),0,1)TRIGGER_RB")
+    field(SCAN, "I/O Intr")
 }
 
 
@@ -293,16 +291,16 @@ record(calcout, "$(P):SWITCH_CALC") {
 # Write switch config register to device
 record(longout, "$(P):SWITCH_CFG_SP") {
     field(DESC, "Switch configuration register")
-    field(DTYP, "stream")
-    field(OUT,  "@bcm-rf.proto setSwitchConfig $(PORT)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0,1)SWITCH_CFG_SP")
     field(FLNK, "$(P):SWITCH_CFG_RB")
 }
 
 # Read switch config register from device
 record(longin, "$(P):SWITCH_CFG_RB") {
     field(DESC, "Switch config register readback")
-    field(DTYP, "stream")
-    field(INP,  "@bcm-rf.proto getSwitchConfig $(PORT)")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),0,1)SWITCH_CFG_RB")
     field(PINI, "YES")
     field(FLNK, "$(P):SWITCH_PARSE_TRIG")
 }
@@ -419,8 +417,8 @@ record(seq, "$(P):MODE_TC_SEQ") {
 
 record(longout, "$(P):HOLD_DELAY_SP") {
     field(DESC, "Hold delay setpoint")
-    field(DTYP, "stream")
-    field(OUT,  "@bcm-rf.proto setHoldDelay $(PORT)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0,1)HOLD_DELAY_SP")
     field(EGU,  "ns")
     field(DRVL, "0")
     field(DRVH, "255")
@@ -432,8 +430,8 @@ record(longout, "$(P):HOLD_DELAY_SP") {
 
 record(longin, "$(P):HOLD_DELAY_RB") {
     field(DESC, "Hold delay readback")
-    field(DTYP, "stream")
-    field(INP,  "@bcm-rf.proto getHoldDelay $(PORT)")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),0,1)HOLD_DELAY_RB")
     field(EGU,  "ns")
     field(HOPR, "255")
     field(LOPR, "0")
@@ -447,8 +445,8 @@ record(longin, "$(P):HOLD_DELAY_RB") {
 
 record(bo, "$(P):CALFO_SP") {
     field(DESC, "CAL-FO mode enable")
-    field(DTYP, "stream")
-    field(OUT,  "@bcm-rf.proto setCalFO $(PORT)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0,1)CALFO_SP")
     field(ZNAM, "Off")
     field(ONAM, "On")
     field(FLNK, "$(P):CALFO_RB")
@@ -457,8 +455,8 @@ record(bo, "$(P):CALFO_SP") {
 
 record(bi, "$(P):CALFO_RB") {
     field(DESC, "CAL-FO mode readback")
-    field(DTYP, "stream")
-    field(INP,  "@bcm-rf.proto getCalFO $(PORT)")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),0,1)CALFO_RB")
     field(ZNAM, "Off")
     field(ONAM, "On")
     field(PINI, "YES")
@@ -473,8 +471,8 @@ record(bi, "$(P):CALFO_RB") {
 
 record(bo, "$(P):REV_FUNC_SP") {
     field(DESC, "Reverse function enable")
-    field(DTYP, "stream")
-    field(OUT,  "@bcm-rf.proto setReverseFunc $(PORT)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0,1)REV_FUNC_SP")
     field(ZNAM, "Off")
     field(ONAM, "On")
     field(VAL,  "1")
@@ -485,8 +483,8 @@ record(bo, "$(P):REV_FUNC_SP") {
 
 record(bi, "$(P):REV_FUNC_RB") {
     field(DESC, "Reverse function readback")
-    field(DTYP, "stream")
-    field(INP,  "@bcm-rf.proto getReverseFunc $(PORT)")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),0,1)REV_FUNC_RB")
     field(ZNAM, "Off")
     field(ONAM, "On")
     field(PINI, "YES")
@@ -500,8 +498,8 @@ record(bi, "$(P):REV_FUNC_RB") {
 
 record(longout, "$(P):ADC_SAMPLES_SP") {
     field(DESC, "ADC samples per trigger")
-    field(DTYP, "stream")
-    field(OUT,  "@bcm-rf.proto setADCSamples $(PORT)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0,1)ADC_SAMPLES_SP")
     field(DRVL, "1")
     field(DRVH, "65535")
     field(HOPR, "65535")
@@ -513,8 +511,8 @@ record(longout, "$(P):ADC_SAMPLES_SP") {
 
 record(longin, "$(P):ADC_SAMPLES_RB") {
     field(DESC, "ADC samples readback")
-    field(DTYP, "stream")
-    field(INP,  "@bcm-rf.proto getADCSamples $(PORT)")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),0,1)ADC_SAMPLES_RB")
     field(HOPR, "65535")
     field(LOPR, "1")
     field(PINI, "YES")
@@ -527,8 +525,8 @@ record(longin, "$(P):ADC_SAMPLES_RB") {
 
 record(longin, "$(P):SERIAL_NUM_RB") {
     field(DESC, "Device serial number")
-    field(DTYP, "stream")
-    field(INP,  "@bcm-rf.proto getSerialNumber $(PORT)")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),0,1)SERIAL_NUM_RB")
     field(PINI, "YES")
 }
 
@@ -539,8 +537,8 @@ record(longin, "$(P):SERIAL_NUM_RB") {
 
 record(bo, "$(P):SAVE_CFG_CMD") {
     field(DESC, "Save config to EEPROM")
-    field(DTYP, "stream")
-    field(OUT,  "@bcm-rf.proto saveConfig $(PORT)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0,1)SAVE_CFG_CMD")
     field(ZNAM, "Idle")
     field(ONAM, "Save")
     field(HIGH, "0.1")
@@ -558,64 +556,64 @@ record(bo, "$(P):SAVE_CFG_CMD") {
 
 record(longout, "$(P):CAL_QI_HI_SP") {
     field(DESC, "Qcal/Ical upper 16-bit (hex)")
-    field(DTYP, "stream")
-    field(OUT,  "@bcm-rf.proto setCalQI_Hi $(PORT)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0,1)CAL_QI_HI_SP")
     field(HOPR, "65535")
     field(LOPR, "0")
 }
 
 record(longout, "$(P):CAL_QI_LO_SP") {
     field(DESC, "Qcal/Ical lower 16-bit (hex)")
-    field(DTYP, "stream")
-    field(OUT,  "@bcm-rf.proto setCalQI_Lo $(PORT)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0,1)CAL_QI_LO_SP")
     field(HOPR, "65535")
     field(LOPR, "0")
 }
 
 record(longin, "$(P):CAL_QI_LO_RB") {
     field(DESC, "Qcal/Ical lower 16-bit readback")
-    field(DTYP, "stream")
-    field(INP,  "@bcm-rf.proto getCalQI_Lo $(PORT)")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),0,1)CAL_QI_LO_RB")
     field(PINI, "YES")
     field(FLNK, "$(P):CAL_QI_HI_RB")
 }
 
 record(longin, "$(P):CAL_QI_HI_RB") {
     field(DESC, "Qcal/Ical upper 16-bit readback")
-    field(DTYP, "stream")
-    field(INP,  "@bcm-rf.proto getCalQI_Hi $(PORT)")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),0,1)CAL_QI_HI_RB")
 }
 
 # --- Ucal ---
 
 record(longout, "$(P):CAL_U_HI_SP") {
     field(DESC, "Ucal upper 16-bit (hex)")
-    field(DTYP, "stream")
-    field(OUT,  "@bcm-rf.proto setCalU_Hi $(PORT)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0,1)CAL_U_HI_SP")
     field(HOPR, "65535")
     field(LOPR, "0")
 }
 
 record(longout, "$(P):CAL_U_LO_SP") {
     field(DESC, "Ucal lower 16-bit (hex)")
-    field(DTYP, "stream")
-    field(OUT,  "@bcm-rf.proto setCalU_Lo $(PORT)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0,1)CAL_U_LO_SP")
     field(HOPR, "65535")
     field(LOPR, "0")
 }
 
 record(longin, "$(P):CAL_U_LO_RB") {
     field(DESC, "Ucal lower 16-bit readback")
-    field(DTYP, "stream")
-    field(INP,  "@bcm-rf.proto getCalU_Lo $(PORT)")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),0,1)CAL_U_LO_RB")
     field(PINI, "YES")
     field(FLNK, "$(P):CAL_U_HI_RB")
 }
 
 record(longin, "$(P):CAL_U_HI_RB") {
     field(DESC, "Ucal upper 16-bit readback")
-    field(DTYP, "stream")
-    field(INP,  "@bcm-rf.proto getCalU_Hi $(PORT)")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),0,1)CAL_U_HI_RB")
 }
 
 

@@ -2846,7 +2846,6 @@ recordtype(aai) {
     }
 }
 device(aai, CONSTANT, devAaiSoft, "Soft Channel")
-device(aai, INST_IO, devaaiStream, "stream")
 device(aai, INST_IO, asynInt8ArrayAai, "asynInt8ArrayIn")
 device(aai, INST_IO, asynInt16ArrayAai, "asynInt16ArrayIn")
 device(aai, INST_IO, asynInt32ArrayAai, "asynInt32ArrayIn")
@@ -3278,7 +3277,6 @@ recordtype(aao) {
     }
 }
 device(aao, CONSTANT, devAaoSoft, "Soft Channel")
-device(aao, INST_IO, devaaoStream, "stream")
 device(aao, INST_IO, asynInt8ArrayAao, "asynInt8ArrayOut")
 device(aao, INST_IO, asynInt16ArrayAao, "asynInt16ArrayOut")
 device(aao, INST_IO, asynInt32ArrayAao, "asynInt32ArrayOut")
@@ -4934,7 +4932,6 @@ device(ai, CONSTANT, devAiSoftRaw, "Raw Soft Channel")
 device(ai, CONSTANT, devAiSoftCallback, "Async Soft Channel")
 device(ai, INST_IO, devTimestampAI, "Soft Timestamp")
 device(ai, INST_IO, devAiGeneralTime, "General Time")
-device(ai, INST_IO, devaiStream, "stream")
 device(ai, INST_IO, asynAiInt32, "asynInt32")
 device(ai, INST_IO, asynAiInt32Average, "asynInt32Average")
 device(ai, INST_IO, asynAiFloat64, "asynFloat64")
@@ -5551,7 +5548,6 @@ recordtype(ao) {
 device(ao, CONSTANT, devAoSoft, "Soft Channel")
 device(ao, CONSTANT, devAoSoftRaw, "Raw Soft Channel")
 device(ao, CONSTANT, devAoSoftCallback, "Async Soft Channel")
-device(ao, INST_IO, devaoStream, "stream")
 device(ao, INST_IO, asynAoInt32, "asynInt32")
 device(ao, INST_IO, asynAoFloat64, "asynFloat64")
 device(ao, INST_IO, asynAoInt64, "asynInt64")
@@ -6739,7 +6735,6 @@ device(bi, CONSTANT, devBiSoft, "Soft Channel")
 device(bi, CONSTANT, devBiSoftRaw, "Raw Soft Channel")
 device(bi, CONSTANT, devBiSoftCallback, "Async Soft Channel")
 device(bi, INST_IO, devBiDbState, "Db State")
-device(bi, INST_IO, devbiStream, "stream")
 device(bi, INST_IO, asynBiInt32, "asynInt32")
 device(bi, INST_IO, asynBiUInt32Digital, "asynUInt32Digital")
 recordtype(bo) {
@@ -7203,7 +7198,6 @@ device(bo, CONSTANT, devBoSoftRaw, "Raw Soft Channel")
 device(bo, CONSTANT, devBoSoftCallback, "Async Soft Channel")
 device(bo, INST_IO, devBoGeneralTime, "General Time")
 device(bo, INST_IO, devBoDbState, "Db State")
-device(bo, INST_IO, devboStream, "stream")
 device(bo, INST_IO, asynBoInt32, "asynInt32")
 device(bo, INST_IO, asynBoUInt32Digital, "asynUInt32Digital")
 recordtype(calc) {
@@ -8585,7 +8579,6 @@ recordtype(calcout) {
 }
 device(calcout, CONSTANT, devCalcoutSoft, "Soft Channel")
 device(calcout, CONSTANT, devCalcoutSoftCallback, "Async Soft Channel")
-device(calcout, INST_IO, devcalcoutStream, "stream")
 recordtype(compress) {
     %#include "epicsTypes.h"
     %#include "link.h"
@@ -11126,7 +11119,6 @@ recordtype(int64in) {
 }
 device(int64in, CONSTANT, devI64inSoft, "Soft Channel")
 device(int64in, CONSTANT, devI64inSoftCallback, "Async Soft Channel")
-device(int64in, INST_IO, devint64inStream, "stream")
 device(int64in, INST_IO, asynInt64In, "asynInt64")
 recordtype(int64out) {
     %#include "epicsTypes.h"
@@ -11618,7 +11610,6 @@ recordtype(int64out) {
 }
 device(int64out, CONSTANT, devI64outSoft, "Soft Channel")
 device(int64out, CONSTANT, devI64outSoftCallback, "Async Soft Channel")
-device(int64out, INST_IO, devint64outStream, "stream")
 device(int64out, INST_IO, asynInt64Out, "asynInt64")
 recordtype(longin) {
     %#include "epicsTypes.h"
@@ -12088,7 +12079,6 @@ recordtype(longin) {
 device(longin, CONSTANT, devLiSoft, "Soft Channel")
 device(longin, CONSTANT, devLiSoftCallback, "Async Soft Channel")
 device(longin, INST_IO, devLiGeneralTime, "General Time")
-device(longin, INST_IO, devlonginStream, "stream")
 device(longin, INST_IO, asynLiInt32, "asynInt32")
 device(longin, INST_IO, asynLiUInt32Digital, "asynUInt32Digital")
 device(longin, INST_IO, asynLiInt64, "asynInt64")
@@ -12606,7 +12596,6 @@ recordtype(longout) {
 }
 device(longout, CONSTANT, devLoSoft, "Soft Channel")
 device(longout, CONSTANT, devLoSoftCallback, "Async Soft Channel")
-device(longout, INST_IO, devlongoutStream, "stream")
 device(longout, INST_IO, asynLoInt32, "asynInt32")
 device(longout, INST_IO, asynLoUInt32Digital, "asynUInt32Digital")
 device(longout, INST_IO, asynLoInt64, "asynInt64")
@@ -12993,7 +12982,6 @@ recordtype(lsi) {
 }
 device(lsi, CONSTANT, devLsiSoft, "Soft Channel")
 device(lsi, INST_IO, devLsiEnviron, "getenv")
-device(lsi, INST_IO, devlsiStream, "stream")
 device(lsi, INST_IO, asynLsiOctetCmdResponse, "asynOctetCmdResponse")
 device(lsi, INST_IO, asynLsiOctetWriteRead, "asynOctetWriteRead")
 device(lsi, INST_IO, asynLsiOctetRead, "asynOctetRead")
@@ -13405,7 +13393,6 @@ recordtype(lso) {
 device(lso, CONSTANT, devLsoSoft, "Soft Channel")
 device(lso, CONSTANT, devLsoSoftCallback, "Async Soft Channel")
 device(lso, INST_IO, devLsoStdio, "stdio")
-device(lso, INST_IO, devlsoStream, "stream")
 device(lso, INST_IO, asynLsoOctetWrite, "asynOctetWrite")
 recordtype(mbbi) {
     %#include "epicsTypes.h"
@@ -14207,7 +14194,6 @@ recordtype(mbbi) {
 device(mbbi, CONSTANT, devMbbiSoft, "Soft Channel")
 device(mbbi, CONSTANT, devMbbiSoftRaw, "Raw Soft Channel")
 device(mbbi, CONSTANT, devMbbiSoftCallback, "Async Soft Channel")
-device(mbbi, INST_IO, devmbbiStream, "stream")
 device(mbbi, INST_IO, asynMbbiInt32, "asynInt32")
 device(mbbi, INST_IO, asynMbbiUInt32Digital, "asynUInt32Digital")
 recordtype(mbbiDirect) {
@@ -14752,7 +14738,6 @@ recordtype(mbbiDirect) {
 device(mbbiDirect, CONSTANT, devMbbiDirectSoft, "Soft Channel")
 device(mbbiDirect, CONSTANT, devMbbiDirectSoftRaw, "Raw Soft Channel")
 device(mbbiDirect, CONSTANT, devMbbiDirectSoftCallback, "Async Soft Channel")
-device(mbbiDirect, INST_IO, devmbbiDirectStream, "stream")
 device(mbbiDirect, INST_IO, asynMbbiDirectUInt32Digital, "asynUInt32Digital")
 recordtype(mbbo) {
     %#include "epicsTypes.h"
@@ -15573,7 +15558,6 @@ recordtype(mbbo) {
 device(mbbo, CONSTANT, devMbboSoft, "Soft Channel")
 device(mbbo, CONSTANT, devMbboSoftRaw, "Raw Soft Channel")
 device(mbbo, CONSTANT, devMbboSoftCallback, "Async Soft Channel")
-device(mbbo, INST_IO, devmbboStream, "stream")
 device(mbbo, INST_IO, asynMbboInt32, "asynInt32")
 device(mbbo, INST_IO, asynMbboUInt32Digital, "asynUInt32Digital")
 recordtype(mbboDirect) {
@@ -16249,7 +16233,6 @@ recordtype(mbboDirect) {
 device(mbboDirect, CONSTANT, devMbboDirectSoft, "Soft Channel")
 device(mbboDirect, CONSTANT, devMbboDirectSoftRaw, "Raw Soft Channel")
 device(mbboDirect, CONSTANT, devMbboDirectSoftCallback, "Async Soft Channel")
-device(mbboDirect, INST_IO, devmbboDirectStream, "stream")
 device(mbboDirect, INST_IO, asynMbboDirectUInt32Digital, "asynUInt32Digital")
 recordtype(permissive) {
     %#include "epicsTypes.h"
@@ -21008,7 +20991,6 @@ device(stringin, CONSTANT, devSiSoftCallback, "Async Soft Channel")
 device(stringin, INST_IO, devTimestampSI, "Soft Timestamp")
 device(stringin, INST_IO, devSiGeneralTime, "General Time")
 device(stringin, INST_IO, devSiEnviron, "getenv")
-device(stringin, INST_IO, devstringinStream, "stream")
 device(stringin, INST_IO, asynSiOctetCmdResponse, "asynOctetCmdResponse")
 device(stringin, INST_IO, asynSiOctetWriteRead, "asynOctetWriteRead")
 device(stringin, INST_IO, asynSiOctetRead, "asynOctetRead")
@@ -21404,7 +21386,6 @@ recordtype(stringout) {
 device(stringout, CONSTANT, devSoSoft, "Soft Channel")
 device(stringout, CONSTANT, devSoSoftCallback, "Async Soft Channel")
 device(stringout, INST_IO, devSoStdio, "stdio")
-device(stringout, INST_IO, devstringoutStream, "stream")
 device(stringout, INST_IO, asynSoOctetWrite, "asynOctetWrite")
 recordtype(sub) {
     %#include "epicsTypes.h"
@@ -24043,7 +24024,6 @@ recordtype(waveform) {
     }
 }
 device(waveform, CONSTANT, devWfSoft, "Soft Channel")
-device(waveform, INST_IO, devwaveformStream, "stream")
 device(waveform, INST_IO, asynWfOctetCmdResponse, "asynOctetCmdResponse")
 device(waveform, INST_IO, asynWfOctetWriteRead, "asynOctetWriteRead")
 device(waveform, INST_IO, asynWfOctetRead, "asynOctetRead")
@@ -24065,13 +24045,11 @@ device(waveform, INST_IO, asynInt64ArrayWfIn, "asynInt64ArrayIn")
 device(waveform, INST_IO, asynInt64ArrayWfOut, "asynInt64ArrayOut")
 device(waveform, INST_IO, asynInt64TimeSeries, "asynInt64TimeSeries")
 driver(drvAsyn)
-driver(stream)
 link(calc, lnkCalcIf)
 link(const, lnkConstIf)
 link(debug, lnkDebugIf)
 link(state, lnkStateIf)
 link(trace, lnkTraceIf)
-registrar(AsynDriverInterfaceRegistrar)
 registrar(aCalcMonitorMemRegister)
 registrar(acalcTotalAllocatedMemoryRegister)
 registrar(arrInitialize)
@@ -24082,6 +24060,7 @@ registrar(asynInterposeEchoRegister)
 registrar(asynInterposeEosRegister)
 registrar(asynInterposeFlushRegister)
 registrar(asynRegister)
+registrar(bcmAsynMonRegister)
 registrar(dbndInitialize)
 registrar(decInitialize)
 registrar(drvAsynIPPortRegisterCommands)
@@ -24089,7 +24068,6 @@ registrar(drvAsynIPServerPortRegisterCommands)
 registrar(drvAsynSerialPortRegisterCommands)
 registrar(interpRegister)
 registrar(rsrvRegistrar)
-registrar(streamRegistrar)
 registrar(subAveRegister)
 registrar(syncInitialize)
 registrar(tsInitialize)
@@ -24134,9 +24112,4 @@ variable(sCalcoutRecordDebug, int)
 variable(seqDLYlimit, double)
 variable(seqDLYprecision, int)
 variable(sseqRecDebug, int)
-variable(streamDebug, int)
-variable(streamDebugColored, int)
-variable(streamError, int)
-variable(streamErrorDeadTime, int)
-variable(streamMsgTimeStamped, int)
 variable(transformRecordDebug, int)

@@ -19,24 +19,17 @@ bcm_rf_ioc_registerRecordDeviceDriver pdbbase
 # CONNECTION CONFIGURATION
 # =====================================================================
 
-# --- Option 1: ser2net on plsparcenea001.lnf.infn.it (TCP/IP) ---
-# /dev/ttyACM0 -> ser2net port 4001 (raw TCP, 9600 8N1)
-# Keep noProcessEos=1 so StreamDevice can handle the LF+NUL frame terminator.
-# drvAsynIPPortConfigure("PORT_NAME", "HOST:PORT", priority, noAutoConnect, noProcessEos)
-drvAsynIPPortConfigure("BCM1", "192.168.197.24:4001", 0, 0, 1)
+# Native asyn driver for unsolicited measurement/trigger frames and
+# command/reply transactions used by StreamDevice records.
+# bcmAsynMonConfigure("PORT_NAME", "HOST", TCP_PORT, reconnect_ms)
+bcmAsynMonConfigure("BCM_MON", "192.168.197.24", 4001, 1000)
 
 # --- Debugging (uncomment to enable) ---
-#asynSetTraceMask("BCM1", 0, 0x9)    # ERROR + DRIVER
-#asynSetTraceIOMask("BCM1", 0, 0x2)  # HEX I/O trace
+#asynSetTraceMask("BCM_MON", 0, 0x9)    # ERROR + DRIVER
+#asynSetTraceIOMask("BCM_MON", 0, 0x2)  # HEX I/O trace
 
 # Disconnect on read timeout to recover from stale connections
-asynSetOption("BCM1", 0, "disconnectOnReadTimeout", "Y")
-
-# =====================================================================
-# StreamDevice Configuration
-# =====================================================================
-
-epicsEnvSet("STREAM_PROTOCOL_PATH", "$(TOP)/db")
+# asynSetOption("BCM_MON", 0, "disconnectOnReadTimeout", "Y")
 
 # =====================================================================
 # Load Database Records
@@ -46,7 +39,7 @@ epicsEnvSet("STREAM_PROTOCOL_PATH", "$(TOP)/db")
 # P    = PV prefix
 # PORT = asyn port name
 # SCAN = measurement scan period
-dbLoadRecords("db/bcm-rf.db", "P=SPARC:DIAG:TURBOBCM,PORT=BCM1,SCAN=.2 second")
+dbLoadRecords("db/bcm-rf.db", "P=SPARC:DIAG:TURBOBCM,PORT=BCM_MON,SCAN=.1 second")
 
 # =====================================================================
 # IOC Initialization

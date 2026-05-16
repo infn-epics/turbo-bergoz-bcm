@@ -31,8 +31,9 @@ ReadTimeout  = 2000;
 WriteTimeout = 1000;
 ExtraInput   = Ignore;
 
-# Terminator: The device uses \n\0 (2 bytes) as frame terminator.
-InTerminator  = "\n\x00";
+# The device emits LF+NUL. On TCP streams the trailing NUL can be delivered
+# separately, so read up to LF and drop the leftover NUL as extra input.
+InTerminator  = "\n";
 OutTerminator = "\n\x00";
 
 
